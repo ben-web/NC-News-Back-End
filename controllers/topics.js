@@ -1,4 +1,4 @@
-const { Topic, Article } = require('../../models');
+const { Topic, Article } = require('../models');
 
 exports.getTopics = (req, res, next) => {
   return Topic.find()

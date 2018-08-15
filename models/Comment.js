@@ -9,6 +9,7 @@ const CommentSchema = new Schema({
   votes: {
     type: Number,
     default: 0
+
   },
   created_at: {
     type: Date,
