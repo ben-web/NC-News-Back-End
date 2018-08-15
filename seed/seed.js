@@ -38,7 +38,7 @@ const seedDB = ({ topicData, userData, articleData, commentData }) => {
         userDocs
       ]);
     })
-    // Log outcomes
+    // Log Outcomes
     .then(([
       commentDocs,
       articleDocs,

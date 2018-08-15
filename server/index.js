@@ -2,8 +2,7 @@
 
 const
   express = require('express'),
-  bodyParser = require('body-parser'),
-  mongoose = require('mongoose');
+  bodyParser = require('body-parser');
 
 module.exports = () => {
   let server = express(),
@@ -14,34 +13,24 @@ module.exports = () => {
     let routes = require('./routes');
 
     // Server Settings
-    // server.set('env', config.env);
+    server.set('env', config.env);
     server.set('port', config.port);
     server.set('hostname', config.hostname);
     server.set('viewDir', config.viewDir);
-\
+
     // Middleware Parser
     server.use(bodyParser.json());
 
-    // Setup View Engine
-    
+    // Set View engine
     server.set('views', server.get('viewDir'));
     server.set('view engine', 'ejs');
-    
-/*     server.engine('.hbs', expressHandlebars({
-      defaultLayout: 'default',
-      layoutsDir: config.viewDir + '/layouts',
-      extname: '.hbs'
-    }));
 
-    server.set('views', server.get('viewDir'));
-    server.set('view engine', '.hbs'); */
-
-    // Set up routes
     routes.init(server);
   };
 
   start = () => {
-    let hostname = server.get('hostname'),
+    const
+      hostname = server.get('hostname'),
       port = server.get('port');
 
     server.listen(port, (err) => {
@@ -55,12 +44,4 @@ module.exports = () => {
     start: start
   };
 };
-
-
-
-
-
-const apiRouter = require('./routes/api');
-
-const { DB_URL } = require('./config');
 
