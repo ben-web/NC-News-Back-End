@@ -43,12 +43,10 @@ app.use('/*', (req, res) => {
 });
 
 // Custom Errors
-app.use((error, req, res, next) => {
-  if (error.code) {
-    res.status(error.code).send({ error });
-  }
-  else next(error);
-});
+app.use((err, req, res, next) => {
+  if (err.status) res.status(err.status).send({ message: err.message });
+  else next(err);
+})
 
 // 500
 app.use((err, req, res, next) => {
