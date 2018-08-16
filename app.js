@@ -6,7 +6,7 @@ const
   mongoose = require('mongoose'),
   { dbUrl } = require('./config'),
   bodyParser = require('body-parser'),
-  { apiRouter } = require('./routes');
+  apiRouter = require('./routes/api');
 
 // Setup Mongoose Connection
 mongoose.connect(dbUrl, { useNewUrlParser: true })
@@ -47,7 +47,7 @@ app.use('/*', (req, res) => {
 
 // Custom Errors
 app.use((err, req, res, next) => {
-  console.log(err, ' <<< Custon Error Handler in app.js');
+  // console.log(err, ' <<< Custom Error Handler in app.js');
   if (err.name === 'CastError' || err.name === 'ValidationError') {
     err.status = 400;
     err.message = err.message || err.msg;

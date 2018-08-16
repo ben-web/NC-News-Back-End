@@ -2,12 +2,15 @@
 
 const
   apiRouter = require('express').Router(),
-  { getApiIndex } = require('../controllers/api'),
-  topicsRouter = require('./topics');
+  articlesRouter = require('./articles'),
+  topicsRouter = require('./topics'),
+  { getApiIndex } = require('../controllers/api');
+
 
 apiRouter.route('/')
   .get(getApiIndex);
 
+apiRouter.use('/articles', articlesRouter);
 apiRouter.use('/topics', topicsRouter);
 
 module.exports = apiRouter;

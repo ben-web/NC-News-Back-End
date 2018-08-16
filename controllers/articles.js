@@ -1,4 +1,30 @@
-const { Article, Topic } = require('../models');
+const { Article } = require('../models');
+
+
+
+exports.getArticles = (req, res, next) => {
+  res.status(200).send({ message: 'Not Implemented getArticles' });
+};
+
+exports.getArticleById = (req, res, next) => {
+  res.status(200).send({ message: 'Not Implemented getArticleById' });
+};
+
+exports.getCommentsByArticleId = (req, res, next) => {
+  res.status(200).send({ message: 'Not Implemented getCommentsByArticleId' });
+};
+
+exports.createComment = (req, res, next) => {
+  res.status(200).send({ message: 'Not Implemented createComment' });
+};
+
+
+
+
+
+
+
+
 
 exports.getTopics = (req, res, next) => {
   return Topic.find()

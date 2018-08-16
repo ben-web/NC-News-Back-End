@@ -10,13 +10,13 @@ const
   seedDB = require('../seed/seed'),
   mongoose = require('mongoose');
 
-describe('NORTHCODERS NEWS API /api', () => {
+describe('API TOPICS', () => {
   let
     articleDocs,
     commentDocs,
     topicDocs,
     userDocs,
-    wrongId = mongoose.Types.ObjectId(); // Invoking ObjectId here generates a valid mongo ID that shouldn't match anything
+    wrongId = mongoose.Types.ObjectId();
 
   beforeEach(() => {
     return seedDB(testData)
@@ -54,7 +54,7 @@ describe('NORTHCODERS NEWS API /api', () => {
   });
 
   describe('/api/topics/:topic_slug/articles', () => {
-    it('GET articles by topic_slug returns all article objects that match the slug and objects have the correct keys', () => {
+    it('GET articles by topic_slug returns all article objects that match the slug and those objects have the correct keys', () => {
       return request
         .get('/api/topics/cats/articles')
         .expect(200)
@@ -82,8 +82,7 @@ describe('NORTHCODERS NEWS API /api', () => {
           expect(res.body.message).to.equal('No Articles Found for Requested Topic');
         });
     });
-
-    it('POST article returns new article object with expected keys', () => {
+    it('POST article returns posted article object with expected keys and values', () => {
       const
         userId = userDocs[0]._id,
         topic_slug = topicDocs[0].slug,
@@ -111,21 +110,40 @@ describe('NORTHCODERS NEWS API /api', () => {
           expect(res.body.article.belongs_to).to.equal(topic_slug);
         });
     });
-
-
-  }); // CLOSE TOPICS
-
-}); // CLOSE API
-
-
-
-/* xit('invalid id returns status 400 and error message', () => {
-  return request
-    .get('') ${wrongId}
-    // Bad Request
-    .expect(400)
-    .then(res => {
-      expect(res.body.msg).to.equal('ID Invalid');
+    it('POST article with non-existent topic_slug returns status 400 and error message', () => {
+      const
+        userId = userDocs[0]._id,
+        topic_slug = 'idontexist',
+        newArticle = {
+          title: 'New Article Title',
+          body: 'New Article Body',
+          created_by: userId
+        };
+      return request
+        .post(`/api/topics/${topic_slug}/articles`)
+        .send(newArticle)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Topic Does Not Exist');
+        });
     });
+    it('POST article with missing required field returns status 400 and error message', () => {
+      const
+        userId = userDocs[0]._id,
+        topic_slug = topicDocs[0].slug,
+        newArticle = {
+          title: 'New Article Title',
+          // Required field removed: body
+          created_by: userId
+        };
+      return request
+        .post(`/api/topics/${topic_slug}/articles`)
+        .send(newArticle)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('articles validation failed: body: Path `body` is required.');
+        });
+    });
+
+  }); 
 });
- */
