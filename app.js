@@ -48,11 +48,17 @@ app.use('/*', (req, res) => {
 // Custom Errors
 app.use((err, req, res, next) => {
   // console.log(err, ' <<< Custom Error Handler in app.js');
-  if (err.name === 'CastError' || err.name === 'ValidationError') {
+
+  if (err.name === 'CastError') {
     err.status = 400;
-    err.message = err.message || err.msg;
+    err.message = 'Provided ID was Invalid';
   };
-  if (err.status) res.status(err.status).send({ message: err.message || err.msg });
+
+  if (err.name === 'ValidationError') {
+    err.status = 400;
+    err.message = err.message;
+  };
+  if (err.status) res.status(err.status).send({ message: err.message });
   else next(err);
 });
 

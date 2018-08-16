@@ -1,13 +1,21 @@
 const { Article } = require('../models');
 
-
-
 exports.getArticles = (req, res, next) => {
-  res.status(200).send({ message: 'Not Implemented getArticles' });
+  return Article.find()
+    .then(articles => {
+      res.status(200).send({ articles });
+    })
+    .catch(next);
 };
 
 exports.getArticleById = (req, res, next) => {
-  res.status(200).send({ message: 'Not Implemented getArticleById' });
+  const { article_id } = req.params;
+  return Article.findById(article_id)
+    .then(article => {
+      if (!article) throw { status: 404, message: 'Article Not Found' };
+      res.status(200).send({ article });
+    })
+    .catch(next);
 };
 
 exports.getCommentsByArticleId = (req, res, next) => {
@@ -21,18 +29,6 @@ exports.createComment = (req, res, next) => {
 
 
 
-
-
-
-
-
-exports.getTopics = (req, res, next) => {
-  return Topic.find()
-    .then(topics => {
-      res.status(200).send({ topics });
-    })
-    .catch(next);
-};
 
 exports.getArticlesByTopic = (req, res, next) => {
   const { topic_slug } = req.params;
