@@ -1,4 +1,4 @@
-const { Article } = require('../models');
+const { Article, Comment } = require('../models');
 
 exports.getArticles = (req, res, next) => {
   return Article.find()
@@ -19,44 +19,21 @@ exports.getArticleById = (req, res, next) => {
 };
 
 exports.getCommentsByArticleId = (req, res, next) => {
-  res.status(200).send({ message: 'Not Implemented getCommentsByArticleId' });
+  const { article_id } = req.params;
+  // Check article_id exists
+  return Article.findById(article_id)
+    .then(article => {
+      if (!article) throw { status: 400, message: 'Article Does Not Exist' };
+      // Get comments for article
+      return Comment.find({ belongs_to: article_id })
+    })
+    .then(comments => {
+      if (comments.length === 0) throw { status: 404, message: 'No Comments Found for Article' };
+      res.status(200).send({ comments });
+    })
+    .catch(next);
 };
 
 exports.createComment = (req, res, next) => {
   res.status(200).send({ message: 'Not Implemented createComment' });
 };
-
-
-
-
-
-exports.getArticlesByTopic = (req, res, next) => {
-  const { topic_slug } = req.params;
-  return Article.find({ belongs_to: topic_slug })
-    .then(articles => {
-      if (articles.length === 0) throw { status: 404, message: 'No Articles Found for Requested Topic' };
-      res.status(200).send({ articles });
-    })
-    .catch(next);
-};
-
-exports.createArticle = (req, res, next) => {
-  const
-    { topic_slug } = req.params,
-    newArticle = new Article(req.body);
-  newArticle.belongs_to = topic_slug;
-  // Check slug exists
-  return Topic.findOne({ slug: topic_slug })
-    .then(topic => {
-      if (!topic) throw { status: 400, message: 'Topic Does Not Exist' };
-      // Save New Article
-      return newArticle.save();
-    })
-    .then(article => {
-      res.status(201).send({ article });
-    })
-    .catch(next);
-};
-
-
-
