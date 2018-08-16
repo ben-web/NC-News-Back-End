@@ -3,20 +3,20 @@
 const
   express = require('express'),
   app = express(),
+  mongoose = require('mongoose'),
+  { dbUrl } = require('./config'),
   bodyParser = require('body-parser'),
   { homeRouter, apiRouter } = require('./routes');
 
 
-// Temp Connect to DB
-const
-  mongoose = require('mongoose'),
-  { dbUrl } = require('./config');
-
+// Set up Mongoose Connection
 mongoose.connect(dbUrl, { useNewUrlParser: true })
   .then(() => {
     console.log(`Connected to ${dbUrl}`)
+  })
+  .catch(err => {
+    console.log(`MongoDB connection error: ${err.message}`)
   });
-
 
 // Parsing
 app.use(bodyParser.json());
@@ -28,7 +28,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
 // Log Requests
-app.all('*', (req, res, next) => {
+app.all('/*', (req, res, next) => {
   console.log(`${req.method} request was made to: ${req.originalUrl}`);
   return next();
 });
@@ -44,15 +44,20 @@ app.use('/*', (req, res) => {
 
 // Custom Errors
 app.use((err, req, res, next) => {
-  if (err.status) res.status(err.status).send({ message: err.message });
+
+  if (err.name === 'CastError' || err.name === 'ValidationError') {
+    err.status = 400;
+    err.message = err.message || err.msg;
+  }
+  if (err.status) res.status(err.status).send({ message: err.message || err.msg });
   else next(err);
-})
+});
 
 // 500
 app.use((err, req, res, next) => {
   console.log(err, ' <<< error object');
   console.log(err.code, ' <<< error code');
-  res.status(500).send({ error: `Internal Server Error ${err.message}` });
+  res.status(500).send({ error: `Internal Server Error ${err.message || err.msg}` });
 });
 
 module.exports = app;

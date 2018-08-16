@@ -7,7 +7,7 @@ const
 topicsRouter.route('/')
   .get(getTopics);
 
-topicsRouter.route('/:topic/articles')
+topicsRouter.route('/:topic_slug/articles')
   .get(getArticlesByTopic);
 
 module.exports = topicsRouter;

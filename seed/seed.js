@@ -3,9 +3,14 @@
 const
   mongoose = require('mongoose'),
   { Article, Comment, Topic, User } = require('../models'),
-  { formatArticleData, formatCommentData } = require('./utils');
+  { formatArticleData, formatCommentData } = require('../utils/factory-helpers');
 
-const seedDB = ({ topicData, userData, articleData, commentData }) => {
+const seedDB = ({
+  articleData,
+  commentData,
+  topicData,
+  userData
+}) => {
   return mongoose.connection.dropDatabase()
     // Insert Topics and Users
     .then(() => {
@@ -32,27 +37,38 @@ const seedDB = ({ topicData, userData, articleData, commentData }) => {
       userDocs
     ]) => {
       return Promise.all([
-        Comment.insertMany(formatCommentData(commentData, articleDocs, userDocs)),
         articleDocs,
+        Comment.insertMany(formatCommentData(commentData, articleDocs, userDocs)),
         topicDocs,
         userDocs
       ]);
     })
     // Log Outcomes
     .then(([
-      commentDocs,
       articleDocs,
+      commentDocs,
       topicDocs,
       userDocs
     ]) => {
-      console.log(topicDocs.length, ' topics added to DB');
-      console.log('<<< First Topic >>>\n', topicDocs[0]);
-      console.log(userDocs.length, ' users added to DB');
-      console.log('<<< First User >>>\n', userDocs[0]);
-      console.log(articleDocs.length, ' articles added to DB');
+      console.log(`
+      --- Added to DB ---\n
+      ${articleDocs.length} Articles\n
+      ${commentDocs.length} Comments\n
+      ${topicDocs.length} Topcis\n
+      ${userDocs.length} Users\n
+       `);
       console.log('<<< First Article >>>\n', articleDocs[0]);
-      console.log(commentDocs.length, ' comments added to DB');
       console.log('<<< First Comment >>>\n', commentDocs[0]);
+      console.log('<<< First Topic >>>\n', topicDocs[0]);
+      console.log('<<< First User >>>\n', userDocs[0]);
+
+      // Return another Promise.all so may access docs in tests
+      return Promise.all([
+        articleDocs,
+        commentDocs,
+        topicDocs,
+        userDocs
+      ]);
     });
 };
 
