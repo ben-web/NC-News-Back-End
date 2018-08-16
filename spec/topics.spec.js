@@ -35,7 +35,6 @@ describe('NORTHCODERS NEWS API /api', () => {
   });
 
   describe('/api/topics', () => {
-
     it('GET returns all topic objects, which have the expected keys', () => {
       return request
         .get('/api/topics')
@@ -52,68 +51,81 @@ describe('NORTHCODERS NEWS API /api', () => {
           );
         });
     });
-
-    xit('POST adds an actore to the db and returns that actor object', () => {
-      const newTopic = {
-        title: 'My New Title',
-        slug: 'my-new-title'
-      }
-      return request
-        .post('/api/topics')
-        .send(newTopic)
-        .expect(201)
-        .then(res => {
-          expect(res.body.topic).to.have.all.keys(
-            '_id',
-            'topic',
-            'slug',
-            '__v'
-          );
-          expect(res.body.topic).to.eql(newTopic);
-        });
-    });
-
-    // do post request but miss a field requred in schema, expect a 400, msg to say 'Actors must have names'
-    // should get error name of ValidationError
-
-
   });
 
-
   describe('/api/topics/:topic_slug/articles', () => {
-
-    it('GET topics by slug returns articles matching the slug', () => {
+    it('GET articles by topic_slug returns all article objects that match the slug and objects have the correct keys', () => {
       return request
         .get('/api/topics/cats/articles')
         .expect(200)
         .then(res => {
           expect(res.body).to.have.all.keys('articles');
           expect(res.body.articles.length).to.equal(2);
-          expect(res.body.articles[0].title).to.equal('They\'re not exactly dogs, are they?');
+          expect(res.body.articles[0].belongs_to).to.equal('cats');
+          expect(res.body.articles[0]).to.have.all.keys(
+            '_id',
+            'title',
+            'body',
+            'created_at',
+            'created_by',
+            'belongs_to',
+            'votes',
+            '__v'
+          );
         });
     });
-
-    xit('GET invalid id returns status 400 and error message', () => {
+    it('GET articles by non-existent topic_slug returns status 404 and error message', () => {
       return request
         .get('/api/topics/idontexist/articles')
-        // Bad Request
-        .expect(400)
+        .expect(404)
         .then(res => {
-          expect(res.body.msg).to.equal('ID Invalid');
+          expect(res.body.message).to.equal('No Articles Found for Requested Topic');
         });
     });
 
-    xit('GET non-existent id returns status 404 and error message', () => {
+    it('POST article returns new article object with expected keys', () => {
+      const
+        userId = userDocs[0]._id,
+        topic_slug = topicDocs[0].slug,
+        newArticle = {
+          title: 'New Article Title',
+          body: 'New Article Body',
+          created_by: userId
+        };
       return request
-        .get('/api/topics/${wrongId}')
-        // Bad Request
-        .expect(404)
+        .post(`/api/topics/${topic_slug}/articles`)
+        .send(newArticle)
+        .expect(201)
         .then(res => {
-          expect(res.body.msg).to.equal('ID Invalid');
+          expect(res.body.article).to.have.all.keys(
+            '_id',
+            'title',
+            'body',
+            'created_by',
+            'created_at',
+            'belongs_to',
+            'votes',
+            '__v'
+          );
+          expect(res.body.article.title).to.equal(newArticle.title);
+          expect(res.body.article.belongs_to).to.equal(topic_slug);
         });
     });
+
 
   }); // CLOSE TOPICS
 
 }); // CLOSE API
 
+
+
+/* xit('invalid id returns status 400 and error message', () => {
+  return request
+    .get('') ${wrongId}
+    // Bad Request
+    .expect(400)
+    .then(res => {
+      expect(res.body.msg).to.equal('ID Invalid');
+    });
+});
+ */

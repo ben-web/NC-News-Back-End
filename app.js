@@ -6,7 +6,7 @@ const
   mongoose = require('mongoose'),
   { dbUrl } = require('./config'),
   bodyParser = require('body-parser'),
-  { homeRouter, apiRouter } = require('./routes');
+  { apiRouter } = require('./routes');
 
 // Setup Mongoose Connection
 mongoose.connect(dbUrl, { useNewUrlParser: true })
@@ -35,7 +35,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Routes
-app.use('/', homeRouter)
+app.get('/', (req, res) => {
+  res.redirect('/api');
+});
 app.use('/api', apiRouter);
 
 // 404
@@ -45,6 +47,7 @@ app.use('/*', (req, res) => {
 
 // Custom Errors
 app.use((err, req, res, next) => {
+  console.log(err, ' <<< Custon Error Handler in app.js');
   if (err.name === 'CastError' || err.name === 'ValidationError') {
     err.status = 400;
     err.message = err.message || err.msg;
@@ -54,7 +57,7 @@ app.use((err, req, res, next) => {
 });
 
 // 500
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.log(err, ' <<< error object');
   console.log(err.code, ' <<< error code');
   res.status(500).send({ error: `Internal Server Error ${err.message || err.msg}` });

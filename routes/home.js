@@ -2,9 +2,8 @@
 
 const
   homeRouter = require('express').Router(),
-  { getHome } = require('../controllers/home');
+  { getHome } = require('../controllers/api');
 
-homeRouter.route('/')
-  .get(getHome);
+
 
 module.exports = homeRouter;

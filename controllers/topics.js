@@ -18,5 +18,23 @@ exports.getArticlesByTopic = (req, res, next) => {
     .catch(next);
 };
 
-// controller needs to handle where nothing is found as mongoose returns null for valid but non-existent IDs
+exports.createArticle = (req, res, next) => {
+  const
+    { topic_slug } = req.params,
+    newArticle = new Article(req.body);
+  newArticle.belongs_to = topic_slug;
+  // Check slug exists
+  return Topic.findOne({ slug: topic_slug })
+    .then(topic => {
+      if (!topic) throw { status: 400, message: 'Topic Does Not Exist' };
+      // Save New Article
+      return newArticle.save();
+    })
+    .then(article => {
+      res.status(201).send({ article });
+    })
+    .catch(next);
+};
+
+
 
