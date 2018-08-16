@@ -43,26 +43,24 @@ const seedDB = ({
         userDocs
       ]);
     })
-    // Log Outcomes
+    // Log DB Results and return Docs
     .then(([
       articleDocs,
       commentDocs,
       topicDocs,
       userDocs
     ]) => {
-      console.log(`
-      --- Added to DB ---\n
-      ${articleDocs.length} Articles\n
-      ${commentDocs.length} Comments\n
-      ${topicDocs.length} Topcis\n
-      ${userDocs.length} Users\n
-       `);
-      console.log('<<< First Article >>>\n', articleDocs[0]);
-      console.log('<<< First Comment >>>\n', commentDocs[0]);
-      console.log('<<< First Topic >>>\n', topicDocs[0]);
-      console.log('<<< First User >>>\n', userDocs[0]);
 
-      // Return another Promise.all so may access docs in tests
+      // Log Results of Seed whhen in test in Dev
+      if (process.env.NODE_ENV === 'development') {
+        console.log(`Added to DB: ${articleDocs.length} Articles | ${commentDocs.length} Comments | ${topicDocs.length} Topics | ${userDocs.length} Users`);
+        console.log('<<< First Article >>>\n', articleDocs[0]);
+        console.log('<<< First Comment >>>\n', commentDocs[0]);
+        console.log('<<< First Topic >>>\n', topicDocs[0]);
+        console.log('<<< First User >>>\n', userDocs[0]);
+      }
+
+      // Return Promise.all so may access docs in tests
       return Promise.all([
         articleDocs,
         commentDocs,

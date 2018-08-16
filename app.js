@@ -8,8 +8,7 @@ const
   bodyParser = require('body-parser'),
   { homeRouter, apiRouter } = require('./routes');
 
-
-// Set up Mongoose Connection
+// Setup Mongoose Connection
 mongoose.connect(dbUrl, { useNewUrlParser: true })
   .then(() => {
     console.log(`Connected to ${dbUrl}`)
@@ -27,11 +26,13 @@ app.set('view engine', 'ejs');
 // Static Files
 app.use(express.static('public'));
 
-// Log Requests
-app.all('/*', (req, res, next) => {
-  console.log(`${req.method} request was made to: ${req.originalUrl}`);
-  return next();
-});
+// Log Requests in Dev
+if (process.env.NODE_ENV === 'development') {
+  app.all('/*', (req, res, next) => {
+    console.log(`${req.method} request was made to: ${req.originalUrl}`);
+    return next();
+  });
+}
 
 // Routes
 app.use('/', homeRouter)
@@ -44,11 +45,10 @@ app.use('/*', (req, res) => {
 
 // Custom Errors
 app.use((err, req, res, next) => {
-
   if (err.name === 'CastError' || err.name === 'ValidationError') {
     err.status = 400;
     err.message = err.message || err.msg;
-  }
+  };
   if (err.status) res.status(err.status).send({ message: err.message || err.msg });
   else next(err);
 });

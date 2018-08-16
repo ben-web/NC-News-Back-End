@@ -9,8 +9,7 @@ exports.getTopics = (req, res, next) => {
 };
 
 exports.getArticlesByTopic = (req, res, next) => {
-  const
-    { topic_slug } = req.params
+  const { topic_slug } = req.params;
   return Article.find({ belongs_to: topic_slug })
     .then(articles => {
       if (articles.length === 0) throw { status: 404, message: 'No Articles Found for Requested Topic' };

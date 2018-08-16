@@ -11,12 +11,22 @@ const
   mongoose = require('mongoose');
 
 describe('NORTHCODERS NEWS API /api', () => {
-  let topicDocs, etc, wrongID = mongoose.Types.ObjectId(); // invoking ObjectId here generates a valid mongo ID that shouldn't match anything
+  let
+    articleDocs,
+    commentDocs,
+    topicDocs,
+    userDocs,
+    wrongId = mongoose.Types.ObjectId(); // Invoking ObjectId here generates a valid mongo ID that shouldn't match anything
 
   beforeEach(() => {
     return seedDB(testData)
       .then(docsArray => {
-        [topicDocs, etcDocs] = docsArray;
+        [
+          articleDocs,
+          commentDocs,
+          topicDocs,
+          userDocs
+        ] = docsArray;
       });
   });
 
@@ -24,7 +34,7 @@ describe('NORTHCODERS NEWS API /api', () => {
     mongoose.disconnect();
   });
 
-  describe('/topics', () => {
+  describe('/api/topics', () => {
 
     it('GET returns all topic objects, which have the expected keys', () => {
       return request
@@ -43,7 +53,7 @@ describe('NORTHCODERS NEWS API /api', () => {
         });
     });
 
-    it('POST adds an actore to the db and returns that actor object', () => {
+    xit('POST adds an actore to the db and returns that actor object', () => {
       const newTopic = {
         title: 'My New Title',
         slug: 'my-new-title'
@@ -70,20 +80,20 @@ describe('NORTHCODERS NEWS API /api', () => {
   });
 
 
-  describe('/topics/:topic/articles', () => {
+  describe('/api/topics/:topic_slug/articles', () => {
 
-    it('GET by id returns the ', () => {
+    it('GET topics by slug returns articles matching the slug', () => {
       return request
-        .get('/api/topics/coding/articles')
+        .get('/api/topics/cats/articles')
         .expect(200)
         .then(res => {
-          expect(res.body).to.have.all.keys('topics');
-          expect(res.body.aticles.length).to.equal(2);
-          expect(res.body.articles[0].title).to.equal('whatever');
+          expect(res.body).to.have.all.keys('articles');
+          expect(res.body.articles.length).to.equal(2);
+          expect(res.body.articles[0].title).to.equal('They\'re not exactly dogs, are they?');
         });
     });
 
-    it('GET invalid id returns status 400 and error message', () => {
+    xit('GET invalid id returns status 400 and error message', () => {
       return request
         .get('/api/topics/idontexist/articles')
         // Bad Request
@@ -93,7 +103,7 @@ describe('NORTHCODERS NEWS API /api', () => {
         });
     });
 
-    it('GET non-existent id returns status 404 and error message', () => {
+    xit('GET non-existent id returns status 404 and error message', () => {
       return request
         .get('/api/topics/${wrongId}')
         // Bad Request
