@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "nodemon listen.js",
     "start": "node index.js",
-    "seed:dev": "node ./seed/seed.dev.js",
-    "seed:test": "node ./seed/seed.test.js",
+    "seed:dev": "node ./seed/run.seed.js",
+    "seed:production": "NODE_ENV=production node ./seed/run.seed.js",
     "test": "mocha ./spec/* --bail"
   },
   "author": "Ben Web",

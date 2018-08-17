@@ -35,5 +35,24 @@ exports.getCommentsByArticleId = (req, res, next) => {
 };
 
 exports.createComment = (req, res, next) => {
-  res.status(200).send({ message: 'Not Implemented createComment' });
+  const
+    { article_id } = req.params,
+    newComment = new Comment(req.body);
+  newComment.belongs_to = article_id;
+  // Check article_id exists
+  return Article.findById(article_id)
+    .then(article => {
+      if (!article) throw { status: 400, message: 'Article Does Not Exist' };
+      // Save New Comment
+      return newComment.save()
+    })
+    .then(comment => {
+      // Populate belongs_to and created_by with article and user objects
+      return comment.populate('belongs_to created_by').execPopulate();
+    })
+    .then(comment => {
+      console.log(comment)
+      res.status(201).send({ comment });
+    })
+    .catch(next);
 };
