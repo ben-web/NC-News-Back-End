@@ -448,7 +448,7 @@ describe('NORTHCODERS NEWS API', () => {
 
   // COMMENTS ///////////////////////////////////////
 
-  describe.only('/api/comments/:comment_id', () => {
+  describe('/api/comments/:comment_id', () => {
     it('PATCH comment vote=up increments comment vote by 1, returns status 200 and updated comment object', () => {
       return request
         .patch(`/api/comments/${commentDocs[0]._id}?vote=up`)
@@ -544,7 +544,7 @@ describe('NORTHCODERS NEWS API', () => {
 
   // USERS ///////////////////////////////////////
 
-  describe.only('/api/users/:username', () => {
+  describe('/api/users/:username', () => {
     it('DELETE user with valid username deletes the user and returns status 200 and deleted user object', () => {
       return request
         .delete(`/api/users/${userDocs[0].username}`)
@@ -554,14 +554,21 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.user).to.be.an('object');
           expect(res.body.user).to.have.all.keys(
             '_id',
-            'avater_url',
+            'avatar_url',
             'name',
+            'username',
             '__v'
           );
           expect(res.body.user._id).to.equal(userDocs[0]._id.toString());
         });
     });
+    it('DELETE user with non-existent username returns status 404 and error message', () => {
+      return request
+        .delete(`/api/users/${nonExistentId}`)
+        .expect(404)
+        .then(res => {
+          expect(res.body.message).to.equal('User Not Found');
+        });
+    });
   });
-  it('DELETE user with non-existent username returns status 404 and error message');
-
 });
