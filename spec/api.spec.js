@@ -57,7 +57,7 @@ describe('NORTHCODERS NEWS API', () => {
   });
 
   describe('/api/topics/:topic_slug/articles', () => {
-    it('GET articles by topic_slug returns all article objects that match the slug and those objects have the correct keys', () => {
+    it('GET articles by topic_slug returns status 200 and all article objects that match the slug and those objects have the correct keys', () => {
       return request
         .get(`/api/topics/${topicDocs[0].slug}/articles`)
         .expect(200)
@@ -85,7 +85,7 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.message).to.equal('No Articles Found for Requested Topic');
         });
     });
-    it('POST article returns posted article object with expected keys and values', () => {
+    it('POST article returns status 201 posted article object with expected keys and values', () => {
       const newArticle =
       {
         title: 'New Article Title',
@@ -146,7 +146,7 @@ describe('NORTHCODERS NEWS API', () => {
   // ARTICLES ///////////////////////////////////////
 
   describe('/api/articles', () => {
-    it('GET articles returns all article objects, and those objects have the expected keys', () => {
+    it('GET articles returns satus 200 and all article objects, and those objects have the expected keys', () => {
       return request
         .get('/api/articles')
         .expect(200)
@@ -169,13 +169,23 @@ describe('NORTHCODERS NEWS API', () => {
   });
 
   describe('/api/articles/:article_id', () => {
-    it('GET article with valid article_id returns that article', () => {
+    it('GET article with valid article_id returns status 200 that article object with expected keys', () => {
       return request
         .get(`/api/articles/${articleDocs[0]._id}`)
         .expect(200)
         .then(res => {
           expect(res.body).to.have.all.keys('article');
           expect(res.body.article).to.be.an('object');
+          expect(res.body.article).to.have.all.keys(
+            '_id',
+            'title',
+            'body',
+            'created_at',
+            'created_by',
+            'belongs_to',
+            'votes',
+            '__v'
+          );
           expect(res.body.article.title).to.equal(articleDocs[0].title);
         });
     });
@@ -198,7 +208,7 @@ describe('NORTHCODERS NEWS API', () => {
   });
 
   describe('/api/articles/:article_id/comments', () => {
-    it('GET comments with valid article_id returns that article\'s comment objects and those objects have correct keys', () => {
+    it('GET comments with valid article_id returns stats 200 and that article\'s comment objects with expected keys', () => {
       return request
         .get(`/api/articles/${articleDocs[0]._id}/comments`)
         .expect(200)
@@ -218,7 +228,7 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.comments[0].belongs_to).to.equal(articleDocs[0]._id.toString());
         });
     });
-    it('GET comments with valid article_id returns status 404 if there are no related comments', () => {
+    it('GET comments returns status 404 if there are no comments related to specified article', () => {
       const newArticle =
       {
         title: 'New Article Title',
@@ -253,7 +263,7 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.message).to.equal('Provided ID was Invalid');
         });
     });
-    it('POST comment with valid article_id returns posted comment object with expected keys and values,\nbelongs_to is populated with article object\ncreated_by is populated with user object', () => {
+    it('POST comment with valid article_id returns posted comment object with expected keys and values,\n         belongs_to is populated with article object\n         created_by is populated with user object', () => {
       const newComment =
       {
         body: 'New Comment Body',
@@ -297,14 +307,150 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.comment.created_by._id).to.equal(userDocs[0]._id.toString());
         })
     });
-
-
-
-    it('POST comment with non-existent article_id returns status 400 and error message');
-    it('POST comment with invalid article_id returns status 400 and error message');
+    it('POST comment with missing required field returns status 400 and error message', () => {
+      const newComment =
+      {
+        // Required field removed: body
+        created_by: userDocs[0]._id
+      };
+      return request
+        .post(`/api/articles/${articleDocs[0]._id}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('comments validation failed: body: Path `body` is required.');
+        });
+    });
+    it('POST comment with non-existent article_id returns status 400 and error message', () => {
+      const newComment =
+      {
+        body: 'New Comment Body',
+        created_by: userDocs[0]._id
+      };
+      return request
+        .post(`/api/articles/${nonExistentId}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Article Does Not Exist');
+        });
+    });
+    it('POST comment with invalid article_id returns status 400 and error message', () => {
+      const newComment =
+      {
+        body: 'New Comment Body',
+        created_by: userDocs[0]._id
+      };
+      return request
+        .post(`/api/articles/${invalidId}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Provided ID was Invalid');
+        });
+    });
+    it('POST comment with non-existent user_id returns status 400 and error message', () => {
+      const newComment =
+      {
+        body: 'New Comment Body',
+        created_by: nonExistentId
+      };
+      return request
+        .post(`/api/articles/${articleDocs[0]._id}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('User Does Not Exist');
+        });
+    });
+    it('POST comment with invalid user_id returns status 400 and error message', () => {
+      const newComment =
+      {
+        body: 'New Comment Body',
+        created_by: invalidId
+      };
+      return request
+        .post(`/api/articles/${articleDocs[0]._id}/comments`)
+        .send(newComment)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('User Does Not Exist');
+        });
+    });
   });
 
+  describe('/api/articles/:article_id', () => {
+    it('PATCH article vote=up increments article vote by 1, returns status 200 and updated article object', () => {
+      return request
+        .patch(`/api/articles/${articleDocs[0]._id}?vote=up`)
+        .expect(200)
+        .then(res => {
+          expect(res.body).to.have.all.keys('article');
+          expect(res.body.article).to.be.an('object');
+          expect(res.body.article).to.have.all.keys(
+            '_id',
+            'title',
+            'body',
+            'created_at',
+            'created_by',
+            'belongs_to',
+            'votes',
+            '__v'
+          );
+          expect(res.body.article.title).to.equal(articleDocs[0].title);
+          expect(res.body.article.votes).to.equal(articleDocs[0].votes + 1);
+        });
+    });
+    it('PATCH article vote=down decrements article vote by 1', () => {
+      return request
+        .patch(`/api/articles/${articleDocs[0]._id}?vote=down`)
+        .expect(200)
+        .then(res => {
+          expect(res.body).to.have.all.keys('article');
+          expect(res.body.article).to.be.an('object');
+          expect(res.body.article).to.have.all.keys(
+            '_id',
+            'title',
+            'body',
+            'created_at',
+            'created_by',
+            'belongs_to',
+            'votes',
+            '__v'
+          );
+          expect(res.body.article.title).to.equal(articleDocs[0].title);
+          expect(res.body.article.votes).to.equal(articleDocs[0].votes - 1);
+        });
+    });
+    it('PATCH article with non-existent article_id returns status 404 and error message', () => {
+      return request
+        .patch(`/api/articles/${nonExistentId}?vote=up`)
+        .expect(404)
+        .then(res => {
+          expect(res.body.message).to.equal('Article Not Found');
+        });
+    });
+    it('PATCH article with invalid article_id returns status 404 and error message', () => {
+      return request
+        .patch(`/api/articles/${invalidId}?vote=up`)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Provided ID was Invalid');
+        });
+    });
+    it('PATCH article with invalid vote value returns status 400 and error message', () => {
+      return request
+        .patch(`/api/articles/${articleDocs[0]._id}?vote=abc`)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Vote Value Invalid');
+        });
+    });
+
+
+  });
+
+});
 
   // TOPICS ///////////////////////////////////////
 
-});

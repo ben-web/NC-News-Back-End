@@ -1,4 +1,4 @@
-const { Article, Comment } = require('../models');
+const { Article, Comment, User } = require('../models');
 
 exports.getArticles = (req, res, next) => {
   return Article.find()
@@ -43,6 +43,11 @@ exports.createComment = (req, res, next) => {
   return Article.findById(article_id)
     .then(article => {
       if (!article) throw { status: 400, message: 'Article Does Not Exist' };
+      // Check user_id exists
+      return User.findById(newComment.created_by)
+    })
+    .then(user => {
+      if (!user) throw { status: 400, message: 'User Does Not Exist' };
       // Save New Comment
       return newComment.save()
     })
@@ -51,8 +56,29 @@ exports.createComment = (req, res, next) => {
       return comment.populate('belongs_to created_by').execPopulate();
     })
     .then(comment => {
-      console.log(comment)
       res.status(201).send({ comment });
     })
     .catch(next);
 };
+
+exports.updateArticleVote = (req, res, next) => {
+  const { article_id } = req.params;
+  let vote = 0;
+
+  if (req.query.vote === 'up') vote = 1;
+  else if (req.query.vote === 'down') vote = -1;
+  else throw { status: 400, message: 'Vote Value Invalid' };
+
+  return Article.findByIdAndUpdate(
+    article_id,
+    { $inc: { votes: vote } },
+    { new: true }
+  )
+    .then(article => {
+      if (!article) throw { status: 404, message: 'Article Not Found' };
+      res.status(200).send({ article });
+    })
+    .catch(next);
+};
+
+//res.status(501).send({ message: 'Not Implimented' });
