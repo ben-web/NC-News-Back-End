@@ -205,6 +205,73 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.message).to.equal('Provided ID was Invalid');
         });
     });
+    it('PATCH article vote=up increments article vote by 1, returns status 200 and updated article object', () => {
+      return request
+        .patch(`/api/articles/${articleDocs[0]._id}?vote=up`)
+        .expect(200)
+        .then(res => {
+          expect(res.body).to.have.all.keys('article');
+          expect(res.body.article).to.be.an('object');
+          expect(res.body.article).to.have.all.keys(
+            '_id',
+            'title',
+            'body',
+            'created_at',
+            'created_by',
+            'belongs_to',
+            'votes',
+            '__v'
+          );
+          expect(res.body.article.title).to.equal(articleDocs[0].title);
+          expect(res.body.article.votes).to.equal(articleDocs[0].votes + 1);
+        });
+    });
+    it('PATCH article vote=down decrements article vote by 1 returns status 200 and updated article object', () => {
+      return request
+        .patch(`/api/articles/${articleDocs[0]._id}?vote=down`)
+        .expect(200)
+        .then(res => {
+          expect(res.body).to.have.all.keys('article');
+          expect(res.body.article).to.be.an('object');
+          expect(res.body.article).to.have.all.keys(
+            '_id',
+            'title',
+            'body',
+            'created_at',
+            'created_by',
+            'belongs_to',
+            'votes',
+            '__v'
+          );
+          expect(res.body.article.title).to.equal(articleDocs[0].title);
+          expect(res.body.article.votes).to.equal(articleDocs[0].votes - 1);
+        });
+    });
+    it('PATCH article with non-existent article_id returns status 404 and error message', () => {
+      return request
+        .patch(`/api/articles/${nonExistentId}?vote=up`)
+        .expect(404)
+        .then(res => {
+          expect(res.body.message).to.equal('Article Not Found');
+        });
+    });
+    it('PATCH article with invalid article_id returns status 404 and error message', () => {
+      return request
+        .patch(`/api/articles/${invalidId}?vote=up`)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Provided ID was Invalid');
+        });
+    });
+    it('PATCH article with invalid vote value returns status 400 and error message', () => {
+      return request
+        .patch(`/api/articles/${articleDocs[0]._id}?vote=abc`)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Vote Value Invalid');
+        });
+    });
+
   });
 
   describe('/api/articles/:article_id/comments', () => {
@@ -379,78 +446,122 @@ describe('NORTHCODERS NEWS API', () => {
     });
   });
 
-  describe('/api/articles/:article_id', () => {
-    it('PATCH article vote=up increments article vote by 1, returns status 200 and updated article object', () => {
+  // COMMENTS ///////////////////////////////////////
+
+  describe.only('/api/comments/:comment_id', () => {
+    it('PATCH comment vote=up increments comment vote by 1, returns status 200 and updated comment object', () => {
       return request
-        .patch(`/api/articles/${articleDocs[0]._id}?vote=up`)
+        .patch(`/api/comments/${commentDocs[0]._id}?vote=up`)
         .expect(200)
         .then(res => {
-          expect(res.body).to.have.all.keys('article');
-          expect(res.body.article).to.be.an('object');
-          expect(res.body.article).to.have.all.keys(
+          expect(res.body).to.have.all.keys('comment');
+          expect(res.body.comment).to.be.an('object');
+          expect(res.body.comment).to.have.all.keys(
             '_id',
-            'title',
             'body',
+            'belongs_to',
             'created_at',
             'created_by',
-            'belongs_to',
             'votes',
             '__v'
           );
-          expect(res.body.article.title).to.equal(articleDocs[0].title);
-          expect(res.body.article.votes).to.equal(articleDocs[0].votes + 1);
+          expect(res.body.comment._id).to.equal(commentDocs[0]._id.toString());
+          expect(res.body.comment.votes).to.equal(commentDocs[0].votes + 1);
         });
     });
-    it('PATCH article vote=down decrements article vote by 1', () => {
+    it('PATCH comment vote=down decrements comment vote by 1, returns status 200 and updated comment object', () => {
       return request
-        .patch(`/api/articles/${articleDocs[0]._id}?vote=down`)
+        .patch(`/api/comments/${commentDocs[0]._id}?vote=down`)
         .expect(200)
         .then(res => {
-          expect(res.body).to.have.all.keys('article');
-          expect(res.body.article).to.be.an('object');
-          expect(res.body.article).to.have.all.keys(
+          expect(res.body).to.have.all.keys('comment');
+          expect(res.body.comment).to.be.an('object');
+          expect(res.body.comment).to.have.all.keys(
             '_id',
-            'title',
             'body',
+            'belongs_to',
             'created_at',
             'created_by',
-            'belongs_to',
             'votes',
             '__v'
           );
-          expect(res.body.article.title).to.equal(articleDocs[0].title);
-          expect(res.body.article.votes).to.equal(articleDocs[0].votes - 1);
+          expect(res.body.comment._id).to.equal(commentDocs[0]._id.toString());
+          expect(res.body.comment.votes).to.equal(commentDocs[0].votes - 1);
         });
     });
-    it('PATCH article with non-existent article_id returns status 404 and error message', () => {
+    it('PATCH comment with non-existent comment_id returns status 404 and error message', () => {
       return request
-        .patch(`/api/articles/${nonExistentId}?vote=up`)
+        .patch(`/api/comments/${nonExistentId}?vote=up`)
         .expect(404)
         .then(res => {
-          expect(res.body.message).to.equal('Article Not Found');
+          expect(res.body.message).to.equal('Comment Not Found');
         });
     });
-    it('PATCH article with invalid article_id returns status 404 and error message', () => {
+    it('PATCH comment with invalid comment_id returns status 400 and error message', () => {
       return request
-        .patch(`/api/articles/${invalidId}?vote=up`)
+        .patch(`/api/comments/${invalidId}?vote=up`)
         .expect(400)
         .then(res => {
           expect(res.body.message).to.equal('Provided ID was Invalid');
         });
     });
-    it('PATCH article with invalid vote value returns status 400 and error message', () => {
+    it('DELETE comment with valid comment_id deletes the comment and returns status 200 and deleted comment object', () => {
       return request
-        .patch(`/api/articles/${articleDocs[0]._id}?vote=abc`)
-        .expect(400)
+        .delete(`/api/comments/${commentDocs[0]._id}`)
+        .expect(200)
         .then(res => {
-          expect(res.body.message).to.equal('Vote Value Invalid');
+          expect(res.body).to.have.all.keys('comment');
+          expect(res.body.comment).to.be.an('object');
+          expect(res.body.comment).to.have.all.keys(
+            '_id',
+            'body',
+            'belongs_to',
+            'created_at',
+            'created_by',
+            'votes',
+            '__v'
+          );
+          expect(res.body.comment._id).to.equal(commentDocs[0]._id.toString());
         });
     });
-
-
+    it('DELETE comment with non-existent comment_id returns status 404 and error message', () => {
+      return request
+        .delete(`/api/comments/${nonExistentId}`)
+        .expect(404)
+        .then(res => {
+          expect(res.body.message).to.equal('Comment Not Found');
+        });
+    });
+    it('DELETE comment with invalid comment_id returns status 400 and error message', () => {
+      return request
+        .delete(`/api/comments/${invalidId}`)
+        .expect(400)
+        .then(res => {
+          expect(res.body.message).to.equal('Provided ID was Invalid');
+        });
+    });
   });
 
+  // USERS ///////////////////////////////////////
+
+  describe.only('/api/users/:username', () => {
+    it('DELETE user with valid username deletes the user and returns status 200 and deleted user object', () => {
+      return request
+        .delete(`/api/users/${userDocs[0].username}`)
+        .expect(200)
+        .then(res => {
+          expect(res.body).to.have.all.keys('user');
+          expect(res.body.user).to.be.an('object');
+          expect(res.body.user).to.have.all.keys(
+            '_id',
+            'avater_url',
+            'name',
+            '__v'
+          );
+          expect(res.body.user._id).to.equal(userDocs[0]._id.toString());
+        });
+    });
+  });
+  it('DELETE user with non-existent username returns status 404 and error message');
+
 });
-
-  // TOPICS ///////////////////////////////////////
-

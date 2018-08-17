@@ -61,7 +61,7 @@ exports.createComment = (req, res, next) => {
     .catch(next);
 };
 
-exports.updateArticleVote = (req, res, next) => {
+exports.updateArticleVotes = (req, res, next) => {
   const { article_id } = req.params;
   let vote = 0;
 
@@ -80,5 +80,3 @@ exports.updateArticleVote = (req, res, next) => {
     })
     .catch(next);
 };
-
-//res.status(501).send({ message: 'Not Implimented' });
