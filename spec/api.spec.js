@@ -88,10 +88,6 @@ describe('NORTHCODERS NEWS API', () => {
           );
         });
     });
-    ////////////////////////////////////////////
-    /// COMMENT COUNT
-    ////////////////////////////////////////
-
     it('GET articles by topic_slug includes comment count with correct value', () => {
       return request
         .get(`/api/topics/${topicDocs[0].slug}/articles`)
@@ -104,7 +100,6 @@ describe('NORTHCODERS NEWS API', () => {
           );
         });
     });
-
     it('GET articles by non-existent topic_slug returns status 404 and error message', () => {
       return request
         .get(`/api/topics/non-existent-slug/articles`)
@@ -186,6 +181,7 @@ describe('NORTHCODERS NEWS API', () => {
             '_id',
             'title',
             'body',
+            'comments',
             'created_at',
             'created_by',
             'belongs_to',
@@ -203,6 +199,17 @@ describe('NORTHCODERS NEWS API', () => {
           );
         });
     });
+  });
+  it('GET articles includes comment count with correct value', () => {
+    return request
+      .get(`/api/articles`)
+      .then(res => {
+        expect(res.body.articles[0].comments).to.equal(
+          commentDocs.filter(comment => {
+            return comment.belongs_to === articleDocs[0]._id;
+          }).length
+        );
+      });
   });
 
   describe('/api/articles/:article_id', () => {

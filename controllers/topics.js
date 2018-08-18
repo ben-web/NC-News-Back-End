@@ -9,15 +9,6 @@ exports.getTopics = (req, res, next) => {
 };
 
 exports.getArticlesByTopic = (req, res, next) => {
-
-  // for each article, count the realted comments
-  // add comments field to Article with this value
-
-  // option 1:
-  // load all comments into an array and then filter for each article
-
-  // option 2: 
-
   const { topic_slug } = req.params;
   return Promise.all(
     [

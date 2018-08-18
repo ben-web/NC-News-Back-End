@@ -1,11 +1,25 @@
 const { Article, Comment, User } = require('../models');
 
 exports.getArticles = (req, res, next) => {
-  return Article.find()
-    // Populate created_by with User
-    .populate('created_by')
-    .exec()
-    .then(articles => {
+  return Promise.all(
+    [
+      Article.find()
+        // Populate created_by with User
+        .populate('created_by')
+        .lean()
+        .exec(),
+      Comment.find()
+        .lean()
+    ]
+  )
+  .then(([articleDocs, commentDocs]) => {
+    articles = articleDocs.map(article => {
+      const comments = commentDocs.filter(comment => comment.belongs_to.toString() === article._id.toString()).length;
+      return {
+        ...article,
+        comments
+      };
+    });
       res.status(200).send({ articles });
     })
     .catch(next);
