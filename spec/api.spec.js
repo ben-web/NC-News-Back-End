@@ -368,6 +368,7 @@ describe('NORTHCODERS NEWS API', () => {
         });
     });
     it('GET comments returns status 404 if there are no comments related to specified article', () => {
+      // Post dummy article to ensure no comments exist
       const newArticle =
       {
         title: 'New Article Title',
@@ -378,6 +379,7 @@ describe('NORTHCODERS NEWS API', () => {
         .post(`/api/topics/${topicDocs[0].slug}/articles`)
         .send(newArticle)
         .then(res => {
+          // Make get request to ensure 404 response
           return request
             .get(`/api/articles/${res.body.article._id}/comments`)
             .expect(404)

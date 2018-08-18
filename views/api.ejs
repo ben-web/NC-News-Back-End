@@ -3,39 +3,256 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Northcoders News API docs</title>
+  <style media="all">
+    /* =Colours
+-----------------------------------------------------------------------------
+body: #333
+headings: #000;
+backgrounds: #F5F5F5;
+light borders: #CCC
+dark borders: #333
+links: #0081C6 
+alt blue #256E94
+hover and highlight: #FFBA00
+-----------------------------------------------------------------------------*/
+    /* =HTML5
+-----------------------------------------------------------------------------*/
+
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    nav,
+    section {
+      display: block;
+    }
+
+    /* =Base
+-----------------------------------------------------------------------------*/
+
+    html {
+      font-size: 100%;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    html,
+    button,
+    input,
+    select,
+    textarea {
+      font-family: sans-serif;
+      color: #222;
+    }
+
+    body {
+      margin: 0;
+      background: #FFF;
+      font: 1em/1.4 Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    ::-moz-selection {
+      background: #00c193;
+      ;
+      color: #fff;
+      text-shadow: none;
+    }
+
+    ::selection {
+      background: #00c193;
+      ;
+      color: #fff;
+      text-shadow: none;
+    }
+
+    /* =Typography and Colour Defaults
+-----------------------------------------------------------------------------*/
+
+    /* Typography Defaults */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin: 1em 0;
+      letter-spacing: 0.1em;
+      font-weight: normal;
+      text-transform: uppercase;
+      color: #130004;
+    }
+
+    h1 {
+      font-size: 1.75em;
+    }
+
+    /* 28/16 */
+    h2 {
+      font-size: 1.5em;
+    }
+
+    /* 24/16 */
+    h3 {
+      font-size: 1.25em;
+    }
+
+    /* 20/16 */
+    h4 {
+      font-size: 1.em;
+    }
+
+    /* 16/16 */
+    h5 {
+      font-size: 0.75m;
+    }
+
+    /* 12/16 */
+    h1 span {
+      display: block;
+      font-size: .53846153854em;
+    }
+
+    /* 14/26 */
+    p {
+      margin: 1.2em 0;
+    }
+
+    b,
+    strong {
+      font-weight: bold;
+    }
+
+    pre,
+    code,
+    kbd,
+    samp {
+      font-family: monospace, serif;
+      _font-family: "courier new", monospace;
+      font-size: 1em;
+    }
+
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    small {
+      font-size: 85%;
+    }
+
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+
+    sup {
+      top: -0.5em;
+    }
+
+    sub {
+      bottom: -0.25em;
+    }
+
+    address {
+      font-style: normal;
+    }
+
+    /* Links */
+    a,
+    a:visited {
+      color: #c1002e;
+      text-decoration: none;
+      border-bottom: 1px dotted #c1002e;
+    }
+
+    a:hover,
+    a:focus {
+      color: #00c193;
+      border-bottom: 1px dotted #00c193;
+    }
+
+    a:focus {
+      outline: thin dotted;
+    }
+
+    a:hover,
+    a:active {
+      outline: 0;
+    }
+  </style>
+  <title>Ben Web's Northcoders News' API docs</title>
 </head>
 
 <body>
-  <h1><a></a>Northcoders News</h1>
-  <h2><a></a>API Endpoints</h2>
-  <h3><a></a>GET <code>/api/topics</code></h3>
-  <p>Get all the topics</p>
-  <h3><a></a>GET <code>/api/topics/:topic/articles</code></h3>
-  <p>Return all the articles for a certain topic</p>
-  <h3><a></a>GET <code>/api/articles</code></h3>
+  <h1>Ben Web's Northcoders' News</h1>
+
+  <h2>API Endpoints</h2>
+
+  <h3>API Topics</h3>
+
+  <h4>GET <code>/api/topics</code></h4>
+  <p>Returns all topics</p>
+
+  <h4>GET <code>/api/topics/:topic/articles</code></h4>
+  <p>Returns all articles for the selected topic</p>
+
+  <h4>POST <code>/api/topics/:topic/articles</code></h4>
+  <p>Creates a new article in the selected topic. This route requires a JSON <code>body</code> with <code>title</code>,
+    <code>body</code> and <code>created_by</code> key value pairs
+    <br /> e.g: <code>{
+    "title": "New Article Title",
+     "body": "Body of the article goes here",
+     "created_by": "user_id"
+  }</code></p>
+
+  <h3>API Articles</h3>
+
+  <h4>GET <code>/api/articles</code></h4>
   <p>Returns all the articles</p>
-  <h3><a></a>GET <code>/api/articles/:article_id/comments</code></h3>
-  <p>Get all the comments for a individual article</p>
-  <h3><a></a>POST <code>/api/articles/:article_id/comments</code></h3>
-  <p>Add a new comment to an article. This route requires a JSON <code>body</code> with a <code>comment</code> key and value
-    pair
-    <br> e.g: <code>{"comment": "This is my new comment"}</code>
+
+  <h4>GET <code>/api/articles/:article_id</code></h4>
+  <p>Returns the article requested</p>
+
+  <h4>PATCH <code>/api/articles/:article_id</code></h4>
+  <p>Increment or Decrement the votes of an article by one. This route requires a <code>vote</code> query of 'up' or 'down'<br/>    e.g:
+    <code>/api/articles/:article_id?vote=up</code>
   </p>
-  <h3><a></a>PUT <code>/api/articles/:article_id</code></h3>
-  <p>Increment or Decrement the votes of an article by one. This route requires a <code>vote</code> query of 'up' or 'down'<br>    e.g:
-    <code>http://northcoders-news-api.herokuapp.com/api/articles/:article_id?vote=up</code>
+
+  <h4>GET <code>/api/articles/:article_id/comments</code></h4>
+  <p>Returns all the comments for the requested article</p>
+
+  <h4>POST <code>/api/articles/:article_id/comments</code></h4>
+  <p>Creates a new comment for the selected article. This route requires a JSON <code>body</code> with <code>body</code>    and
+    <code>created_by</code> key value pairs
+    <br /> e.g: <code>{
+         "body": "Body of the article goes here",
+         "created_by": "user_id"
+      }</code>
   </p>
-  <h3><a></a>PUT <code>/api/comments/:comment_id</code></h3>
-  <p>Increment or Decrement the votes of a comment by one. This route requires a <code>vote</code> query of 'up' or 'down'<br>    e.g:
-    <code>http://northcoders-news-api.herokuapp.com/api/comments/:comment_id?vote=down</code>
+
+  <h3>API Comments</h3>
+
+  <h4>PATCH <code>/api/comments/:comment_id</code></h4>
+  <p>Increment or Decrement the votes of a comment by one. This route requires a <code>vote</code> query of 'up' or 'down'<br/>    e.g:
+    <code>/api/comments/:comment_id?vote=up</code>
   </p>
-  <h3><a></a>DELETE <code>/api/comments/:comment_id</code></h3>
-  <p>Deletes a comment if the comment was created by the Northcoder user</p>
-  <h3><a></a>GET <code>/api/users/:username</code></h3>
-  <p>Returns a JSON object with the profile data for the specified user.</p>
-  <h3><a></a>GET <code>/api/users/:username/repos</code></h3>
-  <p>Returns a JSON array with all the public repos of the specified user.</p>
+
+  <h4>DELETE <code>/api/comments/:comment_id</code></h4>
+  <p>Deletes the selected comment</p>
+
+  <h3>API USers</h3>
+
+  <h4>GET <code>/api/users/:username</code></h4>
+  <p>deletes the user selected</p>
+
 </body>
 
 </html>
