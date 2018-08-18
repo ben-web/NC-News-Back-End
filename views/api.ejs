@@ -4,69 +4,34 @@
 <head>
   <meta charset="utf-8">
   <style media="all">
-    /* =Colours
------------------------------------------------------------------------------
-body: #333
-headings: #000;
-backgrounds: #F5F5F5;
-light borders: #CCC
-dark borders: #333
-links: #0081C6 
-alt blue #256E94
-hover and highlight: #FFBA00
------------------------------------------------------------------------------*/
-    /* =HTML5
------------------------------------------------------------------------------*/
-
-    article,
-    aside,
-    details,
-    figcaption,
-    figure,
     footer,
     header,
-    hgroup,
-    nav,
     section {
       display: block;
+      width: 94%;
+      margin: 2em;
     }
-
-    /* =Base
------------------------------------------------------------------------------*/
 
     html {
-      font-size: 100%;
-      -webkit-text-size-adjust: 100%;
-      -ms-text-size-adjust: 100%;
+      font-size: 120%;
+      -webkit-text-size-adjust: 120%;
+      -ms-text-size-adjust: 120%;
     }
 
-    html,
-    button,
-    input,
-    select,
-    textarea {
+    html {
       font-family: sans-serif;
       color: #222;
     }
 
     body {
       margin: 0;
-      background: #FFF;
+      background: #F6F6F6;
       font: 1em/1.4 Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
-    ::-moz-selection {
-      background: #00c193;
-      ;
-      color: #fff;
-      text-shadow: none;
-    }
-
-    ::selection {
-      background: #00c193;
-      ;
-      color: #fff;
-      text-shadow: none;
+    section {
+      border: 1px #222 solid;
+      padding: 0 1em;
     }
 
     /* =Typography and Colour Defaults
@@ -75,8 +40,8 @@ hover and highlight: #FFBA00
     /* Typography Defaults */
     h1,
     h2,
+    h2,
     h3,
-    h4,
     h5,
     h6 {
       margin: 1em 0;
@@ -96,24 +61,18 @@ hover and highlight: #FFBA00
     }
 
     /* 24/16 */
-    h3 {
+    h2 {
       font-size: 1.25em;
     }
 
     /* 20/16 */
-    h4 {
+    h3 {
       font-size: 1.em;
     }
 
     /* 16/16 */
     h5 {
       font-size: 0.75m;
-    }
-
-    /* 12/16 */
-    h1 span {
-      display: block;
-      font-size: .53846153854em;
     }
 
     /* 14/26 */
@@ -126,43 +85,14 @@ hover and highlight: #FFBA00
       font-weight: bold;
     }
 
-    pre,
-    code,
-    kbd,
-    samp {
-      font-family: monospace, serif;
-      _font-family: "courier new", monospace;
+    code {
+      background-color: #eee;
+      font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
       font-size: 1em;
-    }
-
-    pre {
-      white-space: pre;
-      white-space: pre-wrap;
-      word-wrap: break-word;
     }
 
     small {
       font-size: 85%;
-    }
-
-    sub,
-    sup {
-      font-size: 75%;
-      line-height: 0;
-      position: relative;
-      vertical-align: baseline;
-    }
-
-    sup {
-      top: -0.5em;
-    }
-
-    sub {
-      bottom: -0.25em;
-    }
-
-    address {
-      font-style: normal;
     }
 
     /* Links */
@@ -188,70 +118,83 @@ hover and highlight: #FFBA00
       outline: 0;
     }
   </style>
-  <title>Ben Web's Northcoders News' API docs</title>
+  <title>Ben Web's Northcoders' News API docs</title>
 </head>
 
 <body>
-  <h1>Ben Web's Northcoders' News</h1>
+  <header>
+    <h1>Ben Web's Northcoders' News</h1>
+    <p>Endpoints for this API are detailed below</p>
+  </header>
 
-  <h2>API Endpoints</h2>
+  <section>
+    <h2>API Topics</h2>
 
-  <h3>API Topics</h3>
+    <h3>GET <code><a href="/api/topics">/api/topics</a></code></h3>
+    <p>Returns all topics</p>
 
-  <h4>GET <code>/api/topics</code></h4>
-  <p>Returns all topics</p>
+    <h3>GET <code><a href="/api/topics/:topic/articles">/api/topics/:topic/articles</a></code></h3>
+    <p>Returns all articles for the selected topic</p>
 
-  <h4>GET <code>/api/topics/:topic/articles</code></h4>
-  <p>Returns all articles for the selected topic</p>
-
-  <h4>POST <code>/api/topics/:topic/articles</code></h4>
-  <p>Creates a new article in the selected topic. This route requires a JSON <code>body</code> with <code>title</code>,
-    <code>body</code> and <code>created_by</code> key value pairs
-    <br /> e.g: <code>{
+    <h3>POST <code><a href="/api/topics/:topic/articles">/api/topics/:topic/articles</a></code></h3>
+    <p>Creates a new article in the selected topic. This route requires a JSON <code>body</code> with <code>title</code>,
+      <code>body</code> and <code>created_by</code> key value pairs
+      <br /> e.g: <code>{
     "title": "New Article Title",
      "body": "Body of the article goes here",
      "created_by": "user_id"
   }</code></p>
+  </section>
 
-  <h3>API Articles</h3>
+  <section>
+    <h2>API Articles</h2>
 
-  <h4>GET <code>/api/articles</code></h4>
-  <p>Returns all the articles</p>
+    <h3>GET <code><a href="/api/articles">/api/articles</a></code></h3>
+    <p>Returns all the articles</p>
 
-  <h4>GET <code>/api/articles/:article_id</code></h4>
-  <p>Returns the article requested</p>
+    <h3>GET <code><a href="/api/articles/:article_id">/api/articles/:article_id</a></code></h3>
+    <p>Returns the article requested</p>
 
-  <h4>PATCH <code>/api/articles/:article_id</code></h4>
-  <p>Increment or Decrement the votes of an article by one. This route requires a <code>vote</code> query of 'up' or 'down'<br/>    e.g:
-    <code>/api/articles/:article_id?vote=up</code>
-  </p>
+    <h3>PATCH <code><a href="/api/articles/:article_id">/api/articles/:article_id</a></code></h3>
+    <p>Increment or Decrement the votes of an article by one. This route requires a <code>vote</code> query of 'up' or 'down'<br/>      e.g:
+      <code>/api/articles/:article_id?vote=up</code>
+    </p>
 
-  <h4>GET <code>/api/articles/:article_id/comments</code></h4>
-  <p>Returns all the comments for the requested article</p>
+    <h3>GET <code><a href="/api/articles/:article_id/comments">/api/articles/:article_id/comments</a></code></h3>
+    <p>Returns all the comments for the requested article</p>
 
-  <h4>POST <code>/api/articles/:article_id/comments</code></h4>
-  <p>Creates a new comment for the selected article. This route requires a JSON <code>body</code> with <code>body</code>    and
-    <code>created_by</code> key value pairs
-    <br /> e.g: <code>{
+    <h3>POST <code><a href="/api/articles/:article_id/comments">/api/articles/:article_id/comments</a></code></h3>
+    <p>Creates a new comment for the selected article. This route requires a JSON <code>body</code> with <code>body</code>      and
+      <code>created_by</code> key value pairs
+      <br /> e.g: <code>{
          "body": "Body of the article goes here",
          "created_by": "user_id"
       }</code>
-  </p>
+    </p>
+  </section>
 
-  <h3>API Comments</h3>
+  <section>
+    <h2>API Comments</h2>
 
-  <h4>PATCH <code>/api/comments/:comment_id</code></h4>
-  <p>Increment or Decrement the votes of a comment by one. This route requires a <code>vote</code> query of 'up' or 'down'<br/>    e.g:
-    <code>/api/comments/:comment_id?vote=up</code>
-  </p>
+    <h3>PATCH <code><a href="/api/comments/:comment_id">/api/comments/:comment_id</a></code></h3>
+    <p>Increment or Decrement the votes of a comment by one. This route requires a <code>vote</code> query of 'up' or 'down'<br/>      e.g:
+      <code>/api/comments/:comment_id?vote=up</code>
+    </p>
+  </section>
 
-  <h4>DELETE <code>/api/comments/:comment_id</code></h4>
-  <p>Deletes the selected comment</p>
+  <section>
+    <h3>DELETE <code><a href="/api/comments/:comment_id">/api/comments/:comment_id</a></code></h3>
+    <p>Deletes the selected comment</p>
 
-  <h3>API USers</h3>
+    <h2>API USers</h2>
 
-  <h4>GET <code>/api/users/:username</code></h4>
-  <p>deletes the user selected</p>
+    <h3>GET <code><a href="/api/users/:username">/api/users/:username</a></code></h3>
+    <p>Deletes the user selected</p>
+  </section>
+
+  <footer>
+    <small>This API is a student project demo created after six week on the Full Stack Developer Course at <a href="https://northcoders.com/">Northcoders</a></small>
+  </footer>
 
 </body>
 

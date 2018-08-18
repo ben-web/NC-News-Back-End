@@ -12,14 +12,14 @@ exports.getArticles = (req, res, next) => {
         .lean()
     ]
   )
-  .then(([articleDocs, commentDocs]) => {
-    articles = articleDocs.map(article => {
-      const comments = commentDocs.filter(comment => comment.belongs_to.toString() === article._id.toString()).length;
-      return {
-        ...article,
-        comments
-      };
-    });
+    .then(([articleDocs, commentDocs]) => {
+      articles = articleDocs.map(article => {
+        const comments = commentDocs.filter(comment => comment.belongs_to.toString() === article._id.toString()).length;
+        return {
+          ...article,
+          comments
+        };
+      });
       res.status(200).send({ articles });
     })
     .catch(next);
@@ -27,12 +27,18 @@ exports.getArticles = (req, res, next) => {
 
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
-  return Article.findById(article_id)
-    // Populate created_by with User
-    .populate('created_by')
-    .exec()
-    .then(article => {
+  return Promise.all(
+    [
+      Article.findById(article_id)
+        .populate('created_by')
+        .lean()
+        .exec(),
+      Comment.find({ belongs_to: article_id })
+        .countDocuments()
+    ])
+    .then(([article, count]) => {
       if (!article) throw { status: 404, message: 'Article Not Found' };
+      article.comments = count;
       res.status(200).send({ article });
     })
     .catch(next);
@@ -46,7 +52,6 @@ exports.getCommentsByArticleId = (req, res, next) => {
       if (!article) throw { status: 400, message: 'Article Does Not Exist' };
       // Get comments for article
       return Comment.find({ belongs_to: article_id })
-        // Populate belongs_to and created_by with Article and User
         .populate('belongs_to created_by')
         .exec()
     })

@@ -224,6 +224,7 @@ describe('NORTHCODERS NEWS API', () => {
             '_id',
             'title',
             'body',
+            'comments',
             'created_at',
             'created_by',
             'belongs_to',
@@ -238,6 +239,17 @@ describe('NORTHCODERS NEWS API', () => {
             'name',
             'username',
             '__v'
+          );
+        });
+    });
+    it('GET article includes comment count with correct value', () => {
+      return request
+        .get(`/api/articles/${articleDocs[0]._id}`)
+        .then(res => {
+          expect(res.body.article.comments).to.equal(
+            commentDocs.filter(comment => {
+              return comment.belongs_to === articleDocs[0]._id;
+            }).length
           );
         });
     });
