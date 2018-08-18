@@ -2,6 +2,9 @@ const { Article, Comment, User } = require('../models');
 
 exports.getArticles = (req, res, next) => {
   return Article.find()
+    // Populate created_by with User
+    .populate('created_by')
+    .exec()
     .then(articles => {
       res.status(200).send({ articles });
     })
@@ -11,6 +14,9 @@ exports.getArticles = (req, res, next) => {
 exports.getArticleById = (req, res, next) => {
   const { article_id } = req.params;
   return Article.findById(article_id)
+    // Populate created_by with User
+    .populate('created_by')
+    .exec()
     .then(article => {
       if (!article) throw { status: 404, message: 'Article Not Found' };
       res.status(200).send({ article });
@@ -26,6 +32,9 @@ exports.getCommentsByArticleId = (req, res, next) => {
       if (!article) throw { status: 400, message: 'Article Does Not Exist' };
       // Get comments for article
       return Comment.find({ belongs_to: article_id })
+        // Populate belongs_to and created_by with Article and User
+        .populate('belongs_to created_by')
+        .exec()
     })
     .then(comments => {
       if (comments.length === 0) throw { status: 404, message: 'No Comments Found for Article' };
@@ -48,12 +57,13 @@ exports.createComment = (req, res, next) => {
     })
     .then(user => {
       if (!user) throw { status: 400, message: 'User Does Not Exist' };
-      // Save New Comment
+      // Save new Comment
       return newComment.save()
     })
     .then(comment => {
-      // Populate belongs_to and created_by with article and user objects
-      return comment.populate('belongs_to created_by').execPopulate();
+      // Populate belongs_to and created_by with Article and User
+      return comment.populate('belongs_to created_by')
+        .execPopulate();
     })
     .then(comment => {
       res.status(201).send({ comment });
