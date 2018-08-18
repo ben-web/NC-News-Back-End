@@ -1,4 +1,4 @@
-const { Article, Topic } = require('../models');
+const { Article, Comment, Topic } = require('../models');
 
 exports.getTopics = (req, res, next) => {
   return Topic.find()
@@ -9,13 +9,36 @@ exports.getTopics = (req, res, next) => {
 };
 
 exports.getArticlesByTopic = (req, res, next) => {
+
+  // for each article, count the realted comments
+  // add comments field to Article with this value
+
+  // option 1:
+  // load all comments into an array and then filter for each article
+
+  // option 2: 
+
   const { topic_slug } = req.params;
-  return Article.find({ belongs_to: topic_slug })
-    // Populate created_by with User
-    .populate('created_by')
-    .exec()
-    .then(articles => {
-      if (articles.length === 0) throw { status: 404, message: 'No Articles Found for Requested Topic' };
+  return Promise.all(
+    [
+      Article.find({ belongs_to: topic_slug })
+        // Populate created_by with User
+        .populate('created_by')
+        .lean()
+        .exec(),
+      Comment.find()
+        .lean()
+    ]
+  )
+    .then(([articleDocs, commentDocs]) => {
+      if (articleDocs.length === 0) throw { status: 404, message: 'No Articles Found for Requested Topic' };
+      articles = articleDocs.map(article => {
+        const comments = commentDocs.filter(comment => comment.belongs_to.toString() === article._id.toString()).length;
+        return {
+          ...article,
+          comments
+        };
+      });
       res.status(200).send({ articles });
     })
     .catch(next);

@@ -66,17 +66,18 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.articles.length).to.equal(
             articleDocs.filter(article => article.belongs_to === topicDocs[0].slug).length
           );
-          expect(res.body.articles[0].belongs_to).to.equal(topicDocs[0].slug);
           expect(res.body.articles[0]).to.have.all.keys(
             '_id',
             'title',
             'body',
+            'comments',
             'created_at',
             'created_by',
             'belongs_to',
             'votes',
             '__v'
           );
+          expect(res.body.articles[0].belongs_to).to.equal(topicDocs[0].slug);
           // Check created_by is populated with user object
           expect(res.body.articles[0].created_by).to.have.all.keys(
             '_id',
@@ -87,20 +88,22 @@ describe('NORTHCODERS NEWS API', () => {
           );
         });
     });
+    ////////////////////////////////////////////
+    /// COMMENT COUNT
+    ////////////////////////////////////////
 
-    it.only('GET articles by topic_slug includes comment count with correct value', () => {
-      const
-        firstArticleInTopic = articleDocs.find(article => article.belongs_to === topicDocs[0].slug)._id,
-        numMatchedComments = commentDocs.filter(comment => comment.belongs_to === firstArticleInTopic).length;
-
+    it('GET articles by topic_slug includes comment count with correct value', () => {
       return request
         .get(`/api/topics/${topicDocs[0].slug}/articles`)
         .then(res => {
-          expect(res.body.articles[0].comments).to.equal(numMatchedComments);
+          expect(res.body.articles[0].comments).to.equal(
+            commentDocs.reduce((count, comment) => {
+              return count + (comment.belongs_to ===
+                articleDocs.find(article => article.belongs_to === topicDocs[0].slug)._id);
+            }, 0)
+          );
         });
     });
-
-
 
     it('GET articles by non-existent topic_slug returns status 404 and error message', () => {
       return request
