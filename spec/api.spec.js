@@ -6,8 +6,8 @@ const
   { expect } = require('chai'),
   app = require('../app'),
   request = require('supertest')(app),
-  testData = require('../seed/testData'),
   seedDB = require('../seed/seed'),
+  testData = require('../seed/testData'),
   mongoose = require('mongoose');
 
 describe('NORTHCODERS NEWS API', () => {

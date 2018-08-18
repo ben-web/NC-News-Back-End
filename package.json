@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon listen.js",
-    "start": "node index.js",
+    "start": "node listen.js",
     "seed:dev": "node ./seed/run.seed.js",
     "seed:production": "NODE_ENV=production node ./seed/run.seed.js",
-    "test": "mocha ./spec/* --bail"
+    "test": "mocha ./spec/*"
   },
   "author": "Ben Web",
   "license": "ISC",

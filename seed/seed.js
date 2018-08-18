@@ -43,7 +43,6 @@ const seedDB = ({
         userDocs
       ]);
     })
-    // Log DB Results and return Docs
     .then(([
       articleDocs,
       commentDocs,
@@ -51,8 +50,8 @@ const seedDB = ({
       userDocs
     ]) => {
 
-      // Log Results of Seed whhen in test in Dev
-      if (process.env.NODE_ENV === 'development') {
+      // Log Results of Seed when not in Test
+      if (process.env.NODE_ENV !== 'test') {
         console.log(`Added to DB: ${articleDocs.length} Articles | ${commentDocs.length} Comments | ${topicDocs.length} Topics | ${userDocs.length} Users`);
         console.log('<<< First Article >>>\n', articleDocs[0]);
         console.log('<<< First Comment >>>\n', commentDocs[0]);
@@ -60,7 +59,7 @@ const seedDB = ({
         console.log('<<< First User >>>\n', userDocs[0]);
       }
 
-      // Return Promise.all so may access docs in tests
+      // Return Promise.all so may access collections in tests
       return Promise.all([
         articleDocs,
         commentDocs,

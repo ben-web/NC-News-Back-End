@@ -1,20 +1,22 @@
 'use strict';
 
 const
-  { dbUrl, dataDir } = require('../config'),
+  DB_URL = require('../config'),
+  data = require('./data'),
   seedDB = require('./seed'),
-  mongoose = require('mongoose'),
-  data = require(dataDir);
+  mongoose = require('mongoose');
+  console.log(DB_URL)
 
-mongoose.connect(dbUrl, { useNewUrlParser: true })
+
+mongoose.connect(DB_URL, { useNewUrlParser: true })
   .then(() => {
-    console.log(`Connected to ${dbUrl}`)
+    console.log(`Connected to ${DB_URL}`)
     return seedDB(data);
   })
   .then(() => {
     return mongoose.disconnect();
   })
   .then(() => {
-    console.log(`Disconnected from ${dbUrl}`);
+    console.log(`Disconnected from ${DB_URL}`);
   })
   .catch(console.log);

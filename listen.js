@@ -2,9 +2,9 @@
 
 const
   app = require('./app'),
-  config = require('./config');
+  { HOSTNAME = 'localhost', PORT = 3000 } = process.env;
 
-app.listen(config.port, (err) => {
+app.listen(PORT, (err) => {
   if (err) console.log(err);
-  else console.log('Express server listening on - http://' + config.hostname + ':' + config.port);
+  else console.log('Express server listening on - http://' + HOSTNAME + ':' + PORT);
 });

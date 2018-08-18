@@ -4,14 +4,14 @@ const
   express = require('express'),
   app = express(),
   mongoose = require('mongoose'),
-  { dbUrl } = require('./config'),
+  DB_URL = process.env.DB_URL || require('./config'),
   bodyParser = require('body-parser'),
   apiRouter = require('./routes/api');
 
 // Setup Mongoose Connection
-mongoose.connect(dbUrl, { useNewUrlParser: true })
+mongoose.connect(DB_URL, { useNewUrlParser: true })
   .then(() => {
-    console.log(`Connected to ${dbUrl}`)
+    console.log(`Connected to ${DB_URL}`)
   })
   .catch(err => {
     console.log(`MongoDB connection error: ${err.message}`)
@@ -22,9 +22,6 @@ app.use(bodyParser.json());
 
 // Set EJS as View Engine
 app.set('view engine', 'ejs');
-
-// Static Files
-app.use(express.static('public'));
 
 // Log Requests in Dev
 if (process.env.NODE_ENV === 'development') {
@@ -47,7 +44,6 @@ app.use('/*', (req, res) => {
 
 // Custom Errors
 app.use((err, req, res, next) => {
-  // console.log(err, ' <<< Custom Error Handler in app.js');
   if (err.name === 'CastError') {
     err.status = 400;
     err.message = 'Provided ID was Invalid';
