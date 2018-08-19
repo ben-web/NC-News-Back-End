@@ -284,7 +284,7 @@ For demonstration purposes, the example application uses [Heroku Cloud Hosting](
 
 ## Built With
 
-* [Node.js](https://nodejs.org/) - JavaScript runtime built on [Chrome's V8 JavaScript engine](https://developers.google.com/v8/).
+* [Node.js](https://nodejs.org/) - JavaScript runtime built on [Chrome's V8 JavaScript engine](https://developers.google.com/v8/)
 * [Express.js](https://expressjs.com/) - Web Framework for Node.js
 * [MongoDB](https://www.mongodb.com/) - Document Database
 * [Mongoose](http://mongoosejs.com/) - Object Modelling for Node and Mongo DB
