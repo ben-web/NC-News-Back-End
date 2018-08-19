@@ -53,10 +53,6 @@ const seedDB = ({
       // Log Results of Seed when not in Test
       if (process.env.NODE_ENV !== 'test') {
         console.log(`Added to DB: ${articleDocs.length} Articles | ${commentDocs.length} Comments | ${topicDocs.length} Topics | ${userDocs.length} Users`);
-        console.log('<<< First Article >>>\n', articleDocs[0]);
-        console.log('<<< First Comment >>>\n', commentDocs[0]);
-        console.log('<<< First Topic >>>\n', topicDocs[0]);
-        console.log('<<< First User >>>\n', userDocs[0]);
       }
 
       // Return Promise.all so may access collections in tests

@@ -177,7 +177,7 @@ describe('NORTHCODERS NEWS API', () => {
   // ARTICLES ///////////////////////////////////////
 
   describe('/api/articles', () => {
-    it('GET articles returns satus 200 and all article objects, objects have the expected keys', () => {
+    it('GET articles returns status 200 and all article objects, objects have the expected keys', () => {
       return request
         .get('/api/articles')
         .expect(200)
@@ -412,7 +412,7 @@ describe('NORTHCODERS NEWS API', () => {
           );
         });
     });
-    it('GET comments returns status 404 if there are no comments related to specified article', () => {
+    it('GET comments returns status 404 if there are no comments related to the specified article', () => {
       // Post dummy article to ensure no comments exist
       const newArticle =
       {
