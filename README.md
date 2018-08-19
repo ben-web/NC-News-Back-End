@@ -1,4 +1,4 @@
-# Ben Web's Northcoders News
+# Ben Web's Northcoders' News
 
 This API is a backend project demo created at the halfway point of the Northcoders' Full Stack Developer Course.
 
@@ -41,7 +41,7 @@ Now install the required NPM packages:
 npm install
 ```
 
-Next, create a _config_ directory at root. In this directory, add an _index.js_ file with the following content:
+Next, create a _config_ directory in your project root. In this directory, add an _index.js_ file with the following content:
 
 ```javascript
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -98,7 +98,7 @@ A HTML summary of API endpoints is displayed at [http://localhost:3000/api](http
 
 As an example, make a GET request to [http://localhost:3000/api/articles](http://localhost:3000/api/articles). You may do this in your browser or by using an API Development Environment such as [Postman](https://www.getpostman.com/).
 
-The _/api/articles_ endpoint will return a JSON array of article objects:
+The _/api/articles_ endpoint will return a JSON array of article objects in this format:
 
 ```JSON
 {
@@ -120,7 +120,7 @@ The _/api/articles_ endpoint will return a JSON array of article objects:
       "__v": 0,
       "comments": 8
     }
-    ]
+  ]
 }
 ```
 
@@ -136,7 +136,7 @@ npm run test
 
 Results are then displayed for each test:
 
-```bash
+```text
   NORTHCODERS NEWS API
     /api/topics
 Connected to mongodb://localhost:27017/northcoders_news_test
@@ -197,11 +197,16 @@ Connected to mongodb://localhost:27017/northcoders_news_test
 
 ### End to end testing
 
-Tests use [SuperTest](https://github.com/visionmedia/supertest#readme) to simulate the server and [Mocha](https://mochajs.org/) and [Chai](http://www.chaijs.com/) for assertion based testing.
+Tests use [SuperTest](https://github.com/visionmedia/supertest#readme), [Mocha](https://mochajs.org/) and [Chai](http://www.chaijs.com/) for assertion based testing.
 
-Tests use their own database as configured in _.config/index.js_. This database is reseeded for each test using data that is stored in the _./seed/testData_ directory in JSON format.
+Tests use their own database as configured in _.config/index.js_. This database is reseeded before each test using data that is stored in the _./seed/testData_ directory in JSON format.
 
-Endpoints in a RESTful API must respond to HTTP verbs in the correct manner. Therefore, the tests in this project attempt both to ensure data is retrieved or amended as requested by the calling application, and also that the correct HTTP status codes are returned in each response.
+Endpoints in a RESTful API must respond to HTTP verbs in the correct manner. The tests in this project therefore:
+
+* validate that data is retrieved or amended as appropriate to the controller and HTTP request method
+* data is returned in the correct JSON format
+* correct HTTP status codes are attached to the response header
+* error messages are returned where required
 
 #### Example of happy path testing
 
