@@ -57,7 +57,7 @@ describe('NORTHCODERS NEWS API', () => {
   });
 
   describe('/api/topics/:topic_slug/articles', () => {
-    it('GET articles by topic_slug returns status 200 and all article objects that match the slug and those objects have the correct keys', () => {
+    it('GET articles by topic_slug returns status 200 and all article objects that match the slug, objects have the expected keys', () => {
       return request
         .get(`/api/topics/${topicDocs[0].slug}/articles`)
         .expect(200)
@@ -78,13 +78,21 @@ describe('NORTHCODERS NEWS API', () => {
             '__v'
           );
           expect(res.body.articles[0].belongs_to).to.equal(topicDocs[0].slug);
-          // Check created_by is populated with user object
+        });
+    });
+    it('GET articles by topic_slug returns article objects which have a created_by key populated with the correct user', () => {
+      return request
+        .get(`/api/topics/${topicDocs[0].slug}/articles`)
+        .then(res => {
           expect(res.body.articles[0].created_by).to.have.all.keys(
             '_id',
             'avatar_url',
             'name',
             'username',
             '__v'
+          );
+          expect(res.body.articles[0].created_by._id).to.equal(
+            articleDocs.find(article => article.belongs_to === topicDocs[0].slug).created_by.toString()
           );
         });
     });
@@ -169,7 +177,7 @@ describe('NORTHCODERS NEWS API', () => {
   // ARTICLES ///////////////////////////////////////
 
   describe('/api/articles', () => {
-    it('GET articles returns satus 200 and all article objects, and those objects have the expected keys\n         created_by is populated with user object', () => {
+    it('GET articles returns satus 200 and all article objects, objects have the expected keys', () => {
       return request
         .get('/api/articles')
         .expect(200)
@@ -189,7 +197,12 @@ describe('NORTHCODERS NEWS API', () => {
             '__v'
           );
           expect(res.body.articles[0]._id).to.equal(articleDocs[0]._id.toString());
-          // Check created_by is populated with user object
+        });
+    });
+    it('GET articles returns article objects which have a created_by key populated with correct user', () => {
+      return request
+        .get('/api/articles')
+        .then(res => {
           expect(res.body.articles[0].created_by).to.have.all.keys(
             '_id',
             'avatar_url',
@@ -197,19 +210,20 @@ describe('NORTHCODERS NEWS API', () => {
             'username',
             '__v'
           );
+          expect(res.body.articles[0].created_by._id).to.equal(articleDocs[0].created_by.toString());
         });
     });
-  });
-  it('GET articles includes comment count with correct value', () => {
-    return request
-      .get(`/api/articles`)
-      .then(res => {
-        expect(res.body.articles[0].comments).to.equal(
-          commentDocs.filter(comment => {
-            return comment.belongs_to === articleDocs[0]._id;
-          }).length
-        );
-      });
+    it('GET articles includes comment count with correct value', () => {
+      return request
+        .get(`/api/articles`)
+        .then(res => {
+          expect(res.body.articles[0].comments).to.equal(
+            commentDocs.filter(comment => {
+              return comment.belongs_to === articleDocs[0]._id;
+            }).length
+          );
+        });
+    });
   });
 
   describe('/api/articles/:article_id', () => {
@@ -232,7 +246,12 @@ describe('NORTHCODERS NEWS API', () => {
             '__v'
           );
           expect(res.body.article._id).to.equal(articleDocs[0]._id.toString());
-          // Check created_by is populated with user object
+        });
+    });
+    it('GET article returns article object which has a created_by key populated with the correct user', () => {
+      return request
+        .get(`/api/articles/${articleDocs[0]._id}`)
+        .then(res => {
           expect(res.body.article.created_by).to.have.all.keys(
             '_id',
             'avatar_url',
@@ -240,6 +259,7 @@ describe('NORTHCODERS NEWS API', () => {
             'username',
             '__v'
           );
+          expect(res.body.article.created_by._id).to.equal(articleDocs[0].created_by.toString());
         });
     });
     it('GET article includes comment count with correct value', () => {
@@ -338,7 +358,7 @@ describe('NORTHCODERS NEWS API', () => {
   });
 
   describe('/api/articles/:article_id/comments', () => {
-    it('GET comments with valid article_id returns stats 200 and that article\'s comment objects with expected keys\n         belongs_to is populated with article object\n         created_by is populated with user object', () => {
+    it('GET comments with valid article_id returns stats 200 and that article\'s comment objects with expected keys', () => {
       return request
         .get(`/api/articles/${articleDocs[0]._id}/comments`)
         .expect(200)
@@ -357,7 +377,12 @@ describe('NORTHCODERS NEWS API', () => {
             'votes',
             '__v'
           );
-          // Check belongs_to is populated with article object
+        });
+    });
+    it('GET comments returns comment objects which have a belongs_to key populated with the correct article', () => {
+      return request
+        .get(`/api/articles/${articleDocs[0]._id}/comments`)
+        .then(res => {
           expect(res.body.comments[0].belongs_to).to.have.all.keys(
             '_id',
             'title',
@@ -369,13 +394,21 @@ describe('NORTHCODERS NEWS API', () => {
             '__v'
           );
           expect(res.body.comments[0].belongs_to._id).to.equal(articleDocs[0]._id.toString());
-          // Check created_by populated with user object
+        });
+    });
+    it('GET comments returns comment objects which have a created_by key populated with the correct user', () => {
+      return request
+        .get(`/api/articles/${articleDocs[0]._id}/comments`)
+        .then(res => {
           expect(res.body.comments[0].created_by).to.have.all.keys(
             '_id',
             'username',
             'name',
             'avatar_url',
             '__v'
+          );
+          expect(res.body.comments[0].created_by._id).to.equal(
+            commentDocs.find(comment => comment.belongs_to === articleDocs[0]._id).created_by.toString()
           );
         });
     });
@@ -416,7 +449,7 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.message).to.equal('Provided ID was Invalid');
         });
     });
-    it('POST comment with valid article_id returns posted comment object with expected keys and values,\n         belongs_to is populated with article object\n         created_by is populated with user object', () => {
+    it('POST comment with valid article_id returns posted comment object with expected keys and values', () => {
       const newComment =
       {
         body: 'New Comment Body',
@@ -437,7 +470,18 @@ describe('NORTHCODERS NEWS API', () => {
             '__v'
           );
           expect(res.body.comment.body).to.equal(newComment.body);
-          // Check belongs_to is populated with article object
+        })
+    });
+    it('POST comment returns comment object which has a belongs_to key populated with the correct article object', () => {
+      const newComment =
+      {
+        body: 'New Comment Body',
+        created_by: userDocs[0]._id
+      };
+      return request
+        .post(`/api/articles/${articleDocs[0]._id}/comments`)
+        .send(newComment)
+        .then(res => {
           expect(res.body.comment.belongs_to).to.have.all.keys(
             '_id',
             'title',
@@ -449,7 +493,18 @@ describe('NORTHCODERS NEWS API', () => {
             '__v'
           );
           expect(res.body.comment.belongs_to._id).to.equal(articleDocs[0]._id.toString());
-          // Check created_by populated with user object
+        })
+    });
+    it('POST comment returns comment object which has a created_by key populated with the correct user object', () => {
+      const newComment =
+      {
+        body: 'New Comment Body',
+        created_by: userDocs[0]._id
+      };
+      return request
+        .post(`/api/articles/${articleDocs[0]._id}/comments`)
+        .send(newComment)
+        .then(res => {
           expect(res.body.comment.created_by).to.have.all.keys(
             '_id',
             'username',
@@ -591,7 +646,7 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.message).to.equal('Provided ID was Invalid');
         });
     });
-    it('DELETE comment with valid comment_id deletes the comment and returns status 200 and deleted comment object', () => {
+    it('DELETE comment with valid comment_id returns status 200 and deleted comment object', () => {
       return request
         .delete(`/api/comments/${commentDocs[0]._id}`)
         .expect(200)
@@ -608,6 +663,21 @@ describe('NORTHCODERS NEWS API', () => {
             '__v'
           );
           expect(res.body.comment._id).to.equal(commentDocs[0]._id.toString());
+        });
+    });
+    it('DELETE comment with valid comment_id removes comment from DB', () => {
+      return request
+        .delete(`/api/comments/${commentDocs[0]._id}`)
+        .expect(200)
+        .then(res => {
+          // shoud test for this endpoint rely on results from another endpoint?
+          return request
+            .get(`/api/articles/${commentDocs[0].belongs_to}/comments`)
+            .then(res => {
+              expect(res.body.comments.length).to.equal(
+                commentDocs.filter(comment => comment.belongs_to === commentDocs[0].belongs_to).length - 1
+              );
+            })
         });
     });
     it('DELETE comment with non-existent comment_id returns status 404 and error message', () => {
@@ -631,9 +701,9 @@ describe('NORTHCODERS NEWS API', () => {
   // USERS ///////////////////////////////////////
 
   describe('/api/users/:username', () => {
-    it('DELETE user with valid username deletes the user and returns status 200 and deleted user object', () => {
+    it('GET user with valid username returns status 200 and the requested user object', () => {
       return request
-        .delete(`/api/users/${userDocs[0].username}`)
+        .get(`/api/users/${userDocs[0].username}`)
         .expect(200)
         .then(res => {
           expect(res.body).to.have.all.keys('user');
@@ -646,12 +716,11 @@ describe('NORTHCODERS NEWS API', () => {
             '__v'
           );
           expect(res.body.user._id).to.equal(userDocs[0]._id.toString());
-          // add check that user removed from db?
         });
     });
-    it('DELETE user with non-existent username returns status 404 and error message', () => {
+    it('GET user with non-existent username returns status 404 and error message', () => {
       return request
-        .delete(`/api/users/${nonExistentId}`)
+        .get('/api/users/non-existent-username')
         .expect(404)
         .then(res => {
           expect(res.body.message).to.equal('User Not Found');

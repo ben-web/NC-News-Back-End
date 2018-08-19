@@ -8,7 +8,7 @@
     "start": "node listen.js",
     "seed:dev": "node ./seed/run.seed.js",
     "seed:production": "NODE_ENV=production node ./seed/run.seed.js",
-    "test": "mocha ./spec/*"
+    "test": "mocha ./spec/* --bail"
   },
   "author": "Ben Web",
   "license": "ISC",

@@ -2,9 +2,9 @@
 
 const
   usersRouter = require('express').Router(),
-  { deleteUserByUsername } = require('../controllers/users');
+  { getUserByUsername } = require('../controllers/users');
 
 usersRouter.route('/:username')
-  .delete(deleteUserByUsername);
+  .get(getUserByUsername);
 
 module.exports = usersRouter;
