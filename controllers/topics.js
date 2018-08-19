@@ -13,7 +13,6 @@ exports.getArticlesByTopic = (req, res, next) => {
   return Promise.all(
     [
       Article.find({ belongs_to: topic_slug })
-        // Populate created_by with User
         .populate('created_by')
         .lean()
         .exec(),

@@ -4,7 +4,6 @@ exports.getArticles = (req, res, next) => {
   return Promise.all(
     [
       Article.find()
-        // Populate created_by with User
         .populate('created_by')
         .lean()
         .exec(),
@@ -80,7 +79,6 @@ exports.createComment = (req, res, next) => {
       return newComment.save()
     })
     .then(comment => {
-      // Populate belongs_to and created_by with Article and User
       return comment.populate('belongs_to created_by')
         .execPopulate();
     })
