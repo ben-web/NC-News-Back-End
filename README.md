@@ -172,7 +172,6 @@ Connected to mongodb://localhost:27017/northcoders_news_test
       ✓ GET comments with non-existent article_id returns status 400 and error message
       ✓ GET comments with invalid article_id returns status 400 and error message
       ✓ POST comment with valid article_id returns posted comment object with expected keys and values
-      ✓ POST comment returns comment object which has a belongs_to key populated with the correct article object
       ✓ POST comment returns comment object which has a created_by key populated with the correct user object
       ✓ POST comment with missing required field returns status 400 and error message
       ✓ POST comment with non-existent article_id returns status 400 and error message
@@ -192,7 +191,7 @@ Connected to mongodb://localhost:27017/northcoders_news_test
       ✓ GET user with valid username returns status 200 and the requested user object
       ✓ GET user with non-existent username returns status 404 and error message
 
-  45 passing (4s)
+  44 passing (4s)
 ```
 
 ### End to end testing

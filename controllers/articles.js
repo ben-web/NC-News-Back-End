@@ -79,7 +79,7 @@ exports.createComment = (req, res, next) => {
       return newComment.save()
     })
     .then(comment => {
-      return comment.populate('belongs_to created_by')
+      return comment.populate('created_by')
         .execPopulate();
     })
     .then(comment => {

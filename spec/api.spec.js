@@ -472,29 +472,6 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.comment.body).to.equal(newComment.body);
         })
     });
-    it('POST comment returns comment object which has a belongs_to key populated with the correct article object', () => {
-      const newComment =
-      {
-        body: 'New Comment Body',
-        created_by: userDocs[0]._id
-      };
-      return request
-        .post(`/api/articles/${articleDocs[0]._id}/comments`)
-        .send(newComment)
-        .then(res => {
-          expect(res.body.comment.belongs_to).to.have.all.keys(
-            '_id',
-            'title',
-            'body',
-            'created_at',
-            'created_by',
-            'belongs_to',
-            'votes',
-            '__v'
-          );
-          expect(res.body.comment.belongs_to._id).to.equal(articleDocs[0]._id.toString());
-        })
-    });
     it('POST comment returns comment object which has a created_by key populated with the correct user object', () => {
       const newComment =
       {
