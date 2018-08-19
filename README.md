@@ -31,13 +31,13 @@ Duplicate or fork this repository from [github.com/ben-web/BE2-northcoders-news]
 
 In your CLI, run the command:
 
-```bash
+```text
 git clone <GIT_REPO_URL>
 ```
 
 Now install the required NPM packages:
 
-```bash
+```text
 npm install
 ```
 
@@ -59,19 +59,19 @@ module.exports = dbConfig[process.env.NODE_ENV]
 
 Before seeding the database, ensure you have MongoDB running. In a separate CLI instance run the command:
 
-```bash
+```text
 mongod
 ```
 
 Data is stored in the _./seed/data_ directory in JSON format. To seed your database with this data, run this command in your project CLI:
 
-```bash
+```text
 npm run seed:dev
 ```
 
 If successful, you will see this message:
 
-```bash
+```text
 Added to DB: 36 Articles | 300 Comments | 3 Topics | 6 Users
 ```
 
@@ -79,13 +79,13 @@ Added to DB: 36 Articles | 300 Comments | 3 Topics | 6 Users
 
 To start the application, run this command in the CLI:
 
-```bash
+```text
 npm run dev
 ```
 
 If successful, you will see this message:
 
-```bash
+```text
 Express server listening on - http://localhost:3000
 Connected to mongodb://localhost:27017/northcoders_news
 ```
@@ -130,7 +130,7 @@ Automated tests for each endpoint are located in _./spec/api.spec.js_.
 
 Run these tests using the command:
 
-```bash
+```text
 npm run test
 ```
 
@@ -266,13 +266,13 @@ Before deploying to a live system, ensure you have configured the production dat
 
 ### Seed the production database
 
-```bash
+```text
 npm run seed:production
 ```
 
 If successful, you will see this message:
 
-```bash
+```text
 Added to DB: 36 Articles | 300 Comments | 3 Topics | 6 Users
 ```
 
