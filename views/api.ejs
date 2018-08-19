@@ -85,6 +85,13 @@
       font-weight: bold;
     }
 
+    pre {
+      display: inline-block;
+      margin: 0 0 2em 0;
+      padding: 0 4em 0 0;
+      background-color: #eee;
+    }
+
     code {
       background-color: #eee;
       font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
@@ -138,12 +145,15 @@
 
     <h3>POST <code><a href="/api/topics/:topic/articles">/api/topics/:topic/articles</a></code></h3>
     <p>Creates a new article in the selected topic. This route requires a JSON <code>body</code> with <code>title</code>,
-      <code>body</code> and <code>created_by</code> key value pairs
-      <br /> e.g: <code>{
+      <code>body</code> and <code>created_by</code> key value pairs</p>
+    <p>e.g:</p>
+    <pre><code>
+    {
     "title": "New Article Title",
-     "body": "Body of the article goes here",
-     "created_by": "user_id"
-  }</code></p>
+    "body": "Body of the article goes here",
+    "created_by": "user_id"
+    }
+    </code></pre>
   </section>
 
   <section>
@@ -156,30 +166,30 @@
     <p>Returns the article requested</p>
 
     <h3>PATCH <code><a href="/api/articles/:article_id">/api/articles/:article_id</a></code></h3>
-    <p>Increment or Decrement the votes of an article by one. This route requires a <code>vote</code> query of 'up' or 'down'<br/>      e.g:
-      <code>/api/articles/:article_id?vote=up</code>
-    </p>
+    <p>Increment or Decrement the votes of an article by one. This route requires a <code>vote</code> query of 'up' or 'down'</p>
+    <p>e.g: <code>/api/articles/:article_id?vote=up</code></p>
 
     <h3>GET <code><a href="/api/articles/:article_id/comments">/api/articles/:article_id/comments</a></code></h3>
     <p>Returns all the comments for the requested article</p>
 
     <h3>POST <code><a href="/api/articles/:article_id/comments">/api/articles/:article_id/comments</a></code></h3>
     <p>Creates a new comment for the selected article. This route requires a JSON <code>body</code> with <code>body</code>      and
-      <code>created_by</code> key value pairs
-      <br /> e.g: <code>{
-         "body": "Body of the article goes here",
-         "created_by": "user_id"
-      }</code>
-    </p>
+      <code>created_by</code> key value pairs</p>
+    <p>e.g:</p>
+    <pre><code>
+    {
+    "body": "Body of the article goes here",
+    "created_by": "user_id"
+    }
+    </code></pre>
   </section>
 
   <section>
     <h2>API Comments</h2>
 
     <h3>PATCH <code><a href="/api/comments/:comment_id">/api/comments/:comment_id</a></code></h3>
-    <p>Increment or Decrement the votes of a comment by one. This route requires a <code>vote</code> query of 'up' or 'down'<br/>      e.g:
-      <code>/api/comments/:comment_id?vote=up</code>
-    </p>
+    <p>Increment or Decrement the votes of a comment by one. This route requires a <code>vote</code> query of 'up' or 'down'</p>
+    <p>e.g: <code>/api/comments/:comment_id?vote=up</code></p>
 
     <h3>DELETE <code><a href="/api/comments/:comment_id">/api/comments/:comment_id</a></code></h3>
     <p>Deletes the selected comment</p>
