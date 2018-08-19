@@ -7,7 +7,7 @@ It demonstrates some of the skills students learn in the first six weeks of the 
 * JavaScript programming
 * building a [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) [Web API](https://en.wikipedia.org/wiki/Web_API) to respond to [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) reqests
 * storing data and interacting with databases
-* and [TDD](https://en.wikipedia.org/wiki/Test-driven_development).
+* [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)
 
 This project is built in Node.js, using Express.js for server and MongoDB for [NoSQL](https://en.wikipedia.org/wiki/NoSQL) data storage.
 
