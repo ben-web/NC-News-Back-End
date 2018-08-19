@@ -11,7 +11,7 @@ It demonstrates some of the skills students learn in the first six weeks of the 
 
 This project is built in Node.js, using Express.js for server and MongoDB for [NoSQL](https://en.wikipedia.org/wiki/NoSQL) data storage.
 
-A working example of this API is available at [ben-web-nc-news.herokuapp.com](https://ben-web-nc-news.herokuapp.com/)
+A working example of this API is available at [ben-web-nc-news.herokuapp.com](https://ben-web-nc-news.herokuapp.com/).
 
 ## Getting Started
 
@@ -27,7 +27,7 @@ Before installing this project, ensure you have this software installed:
 
 ### Installing
 
-Duplicate or fork this repository from https://github.com/ben-web/BE2-northcoders-news
+Duplicate or fork this repository from [github.com/ben-web/BE2-northcoders-news](https://github.com/ben-web/BE2-northcoders-news).
 
 In your CLI, run the command
 
@@ -69,7 +69,7 @@ Data is stored in the _./seed/data_ directory in JSON format. To seed your datab
 npm run seed:dev
 ```
 
-If successful, you'll see this message:
+If successful, you will see this message:
 
 ```bash
 Added to DB: 36 Articles | 300 Comments | 3 Topics | 6 Users
@@ -83,20 +83,20 @@ To start the application, run this command in the CLI:
 npm run dev
 ```
 
-If successful, you'll see this message:
+If successful, you will see this message:
 
 ```bash
 Express server listening on - http://localhost:3000
 Connected to mongodb://localhost:27017/northcoders_news
 ```
 
-You may now access the application at [http://localhost:3000](http://localhost:3000)
+You may now access the application at [http://localhost:3000](http://localhost:3000).
 
 ### View endpoints
 
-A HTML summary of API endpoints is displayed at [http://localhost:3000/api](http://localhost:3000/api)
+A HTML summary of API endpoints is displayed at [http://localhost:3000/api](http://localhost:3000/api).
 
-As an example, make a GET request to [http://localhost:3000/api/articles](http://localhost:3000/api/articles). You may do this in your browser or by using an API Development Environment such as [Postman](https://www.getpostman.com/)
+As an example, make a GET request to [http://localhost:3000/api/articles](http://localhost:3000/api/articles). You may do this in your browser or by using an API Development Environment such as [Postman](https://www.getpostman.com/).
 
 The _/api/articles_ endpoint will return a JSON array of article objects:
 
@@ -126,9 +126,9 @@ The _/api/articles_ endpoint will return a JSON array of article objects:
 
 ## Running the tests
 
-Automated tests for each endpoint are located in _./spec/api.spec.js_
+Automated tests for each endpoint are located in _./spec/api.spec.js_.
 
-Run these texts using the command:
+Run these tests using the command:
 
 ```bash
 npm run test
@@ -201,11 +201,11 @@ Tests use [SuperTest](https://github.com/visionmedia/supertest#readme) to simula
 
 Tests use their own database as configured in _.config/index.js_. This database is reseeded for each test using data that is stored in the _./seed/testData_ directory in JSON format.
 
-Endpoints in a RESTful API must respond to HTTP verbs in the correct manner. The tests in my project therefore attempt not only to ensure data is retrieved or amended as requested by the call but also that the correct HTTP statuses are returned in each response.
+Endpoints in a RESTful API must respond to HTTP verbs in the correct manner. Therefore, the tests in this project attempt both to ensure data is retrieved or amended as requested by the calling application, and also that the correct HTTP status codes are returned in each response.
 
 #### Example of happy path testing
 
-This example makes a request for a single article using its ID parameter. The test checks the endpoint's response:
+This example makes a request for a single article using its ID parameter. The test checks that the endpoint's response:
 
 * has the correct HTTP status code
 * includes an article object in the correct format
@@ -237,7 +237,7 @@ This example makes a request for a single article using its ID parameter. The te
 
 #### Example of unhappy path testing
 
-This example makes a request for a single article that does not exist. The test checks the endpoint's response has the correct HTTP error status code.
+This example makes a request for a single article that does not exist. The test checks that the endpoint's response has the correct HTTP error status code.
 
 ```javascript
     it('GET article with non-existent article_id returns status 404 and error message', () => {
@@ -250,11 +250,11 @@ This example makes a request for a single article that does not exist. The test 
     });
 ```
 
-Please see the _./spec/api.spec.js_ file for the detail of all tests.
+Please see the _./spec/api.spec.js_ file for the specification of each test.
 
 ### Coding style tests
 
-I have not added coding style tests as I do not yet know how to configure eslint to style code in the way that I like to write JavaScript.
+Coding style test have not been added (I do not yet know how to configure eslint to style code in the way that I like to format JavaScript).
 
 ## Deployment
 
@@ -266,7 +266,7 @@ Before deploying to a live system, ensure you have configured the production dat
 npm run seed:production
 ```
 
-If successful, you'll see this message:
+If successful, you will see this message:
 
 ```bash
 Added to DB: 36 Articles | 300 Comments | 3 Topics | 6 Users
@@ -276,7 +276,7 @@ Added to DB: 36 Articles | 300 Comments | 3 Topics | 6 Users
 
 Please see your hosting provider's documentation for instructions on deploying to their environment.
 
-For demonstration purposes, I have used [Heroku](https://www.heroku.com/). Instructions for their service may be found here: [devcenter.heroku.com/articles/getting-started-with-nodejs](https://devcenter.heroku.com/articles/getting-started-with-nodejs)
+For demonstration purposes, the example application uses [Heroku Cloud Hosting](https://www.heroku.com/). Instructions for their service may be found here: [devcenter.heroku.com/articles/getting-started-with-nodejs](https://devcenter.heroku.com/articles/getting-started-with-nodejs).
 
 ## Built With
 
@@ -285,7 +285,7 @@ For demonstration purposes, I have used [Heroku](https://www.heroku.com/). Instr
 * [MongoDB](https://www.mongodb.com/) - Document Database
 * [Mongoose](http://mongoosejs.com/) - Object Modelling for Node and Mongo DB
 
-## Authors
+## Author
 
 * **Ben Web** - *Northcoders Student* - [northcoders.com](https://northcoders.com)
 
