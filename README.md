@@ -29,7 +29,7 @@ Before installing this project, ensure you have this software installed:
 
 Duplicate or fork this repository from [github.com/ben-web/BE2-northcoders-news](https://github.com/ben-web/BE2-northcoders-news).
 
-In your CLI, run the command
+In your CLI, run the command:
 
 ```bash
 git clone <GIT_REPO_URL>
@@ -63,7 +63,7 @@ Before seeding the database, ensure you have MongoDB running. In a separate CLI 
 mongod
 ```
 
-Data is stored in the _./seed/data_ directory in JSON format. To seed your database with this data, run this command in the CLI:
+Data is stored in the _./seed/data_ directory in JSON format. To seed your database with this data, run this command in your project CLI:
 
 ```bash
 npm run seed:dev
