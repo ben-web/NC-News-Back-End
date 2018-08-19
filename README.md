@@ -254,7 +254,7 @@ Please see the _./spec/api.spec.js_ file for the specification of each test.
 
 ### Coding style tests
 
-Coding style test have not been added (I do not yet know how to configure eslint to style code in the way that I like to format JavaScript).
+Coding style test have not been added.
 
 ## Deployment
 
