@@ -162,7 +162,7 @@ Connected to mongodb://localhost:27017/northcoders_news_test
       ✓ PATCH article vote=up increments article vote by 1, returns status 200 and updated article object
       ✓ PATCH article vote=down decrements article vote by 1 returns status 200 and updated article object
       ✓ PATCH article with non-existent article_id returns status 404 and error message
-      ✓ PATCH article with invalid article_id returns status 404 and error message
+      ✓ PATCH article with invalid article_id returns status 400 and error message
       ✓ PATCH article with invalid vote value returns status 400 and error message
     /api/articles/:article_id/comments
       ✓ GET comments with valid article_id returns stats 200 and that articles comment objects with expected keys

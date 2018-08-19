@@ -339,7 +339,7 @@ describe('NORTHCODERS NEWS API', () => {
           expect(res.body.message).to.equal('Article Not Found');
         });
     });
-    it('PATCH article with invalid article_id returns status 404 and error message', () => {
+    it('PATCH article with invalid article_id returns status 400 and error message', () => {
       return request
         .patch(`/api/articles/${invalidId}?vote=up`)
         .expect(400)
