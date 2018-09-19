@@ -1,6 +1,7 @@
 'use strict';
 
 const
+  cors = require('cors'),
   apiRouter = require('express').Router(),
   articlesRouter = require('./articles'),
   commentsRouter = require('./comments'),
@@ -11,6 +12,9 @@ const
 
 apiRouter.route('/')
   .get(getApiIndex);
+
+apiRouter.use(cors());
+apiRouter.options('*', cors());
 
 apiRouter.use('/articles', articlesRouter);
 apiRouter.use('/comments', commentsRouter);
