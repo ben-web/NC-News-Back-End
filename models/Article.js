@@ -13,7 +13,7 @@ const ArticleSchema = new Schema({
   },
   imageUrl: {
     type: String,
-    default: () => randomImageUrl(600, 400)
+    default: () => randomImageUrl(600, 300)
   },
   votes: {
     type: Number,
