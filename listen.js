@@ -2,7 +2,7 @@
 
 const
   app = require('./app'),
-  { HOSTNAME = 'localhost', PORT = 3000 } = process.env;
+  { HOSTNAME = 'localhost', PORT = 9090 } = process.env;
 
 app.listen(PORT, (err) => {
   if (err) console.log(err);

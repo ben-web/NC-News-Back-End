@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const { randomImageUrl } = require('../utils/randomImage');
 
 const ArticleSchema = new Schema({
   title: {
@@ -10,10 +11,13 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
+  imageUrl: {
+    type: String,
+    default: () => randomImageUrl(600, 400)
+  },
   votes: {
     type: Number,
-    required: true,
-    default: 0
+    default: () => Math.floor(Math.random() * 64)
   },
   created_at: {
     type: Date,
