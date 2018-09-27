@@ -11,7 +11,7 @@ It demonstrates some of the skills students learn in the first six weeks of the 
 
 This project is built in Node.js, using Express.js for server and MongoDB for [NoSQL](https://en.wikipedia.org/wiki/NoSQL) data storage.
 
-A working example of this API is available at [ben-web-nc-news.herokuapp.com](https://ben-web-nc-news.herokuapp.com/).
+A working example of this API is available at [ben-web-nc-news-back-end.herokuapp.com](https://ben-web-nc-news-back-end.herokuapp.com).
 
 ## Getting Started
 
