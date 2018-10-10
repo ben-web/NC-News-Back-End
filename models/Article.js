@@ -11,7 +11,7 @@ const ArticleSchema = new Schema({
     type: String,
     required: true
   },
-  imageUrl: {
+  image_url: {
     type: String,
     default: () => randomImageUrl(600, 300)
   },

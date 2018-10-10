@@ -5,8 +5,6 @@ const
   data = require('./data'),
   seedDB = require('./seed'),
   mongoose = require('mongoose');
-  console.log(DB_URL)
-
 
 mongoose.connect(DB_URL, { useNewUrlParser: true })
   .then(() => {
