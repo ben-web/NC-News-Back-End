@@ -73,6 +73,7 @@ describe('NORTHCODERS NEWS API', () => {
             'comments',
             'created_at',
             'created_by',
+            'image_url',
             'belongs_to',
             'votes',
             '__v'
@@ -134,6 +135,7 @@ describe('NORTHCODERS NEWS API', () => {
             'body',
             'created_by',
             'created_at',
+            'image_url',
             'belongs_to',
             'votes',
             '__v'
@@ -192,6 +194,7 @@ describe('NORTHCODERS NEWS API', () => {
             'comments',
             'created_at',
             'created_by',
+            'image_url',
             'belongs_to',
             'votes',
             '__v'
@@ -241,6 +244,7 @@ describe('NORTHCODERS NEWS API', () => {
             'comments',
             'created_at',
             'created_by',
+            'image_url',
             'belongs_to',
             'votes',
             '__v'
@@ -302,6 +306,7 @@ describe('NORTHCODERS NEWS API', () => {
             'body',
             'created_at',
             'created_by',
+            'image_url',
             'belongs_to',
             'votes',
             '__v'
@@ -323,6 +328,7 @@ describe('NORTHCODERS NEWS API', () => {
             'body',
             'created_at',
             'created_by',
+            'image_url',
             'belongs_to',
             'votes',
             '__v'
@@ -389,6 +395,7 @@ describe('NORTHCODERS NEWS API', () => {
             'body',
             'created_at',
             'created_by',
+            'image_url',
             'belongs_to',
             'votes',
             '__v'
