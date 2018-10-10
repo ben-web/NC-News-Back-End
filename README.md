@@ -300,6 +300,9 @@ Please see the _./spec/api.spec.js_ file for the specification of each test.
 * [Express.js](https://expressjs.com/) - Web Framework for Node.js
 * [MongoDB](https://www.mongodb.com/) - Document Database
 * [Mongoose](http://mongoosejs.com/) - Object Modelling for Node and Mongo DB
+* [Mocha](https://mochajs.org/) - JavaScript test framework
+* [Chai](https://www.chaijs.com/) - Asserion based testing for Mocha
+* [Supertest](https://github.com/visionmedia/supertest) - HTTP assertion testing agent
 
 ## Author
 
