@@ -12,6 +12,10 @@
       margin: 2em;
     }
 
+    footer {
+      text-align: center;
+    }
+
     html {
       font-size: 120%;
       -webkit-text-size-adjust: 120%;
@@ -130,7 +134,7 @@
 
 <body>
   <header>
-    <h1>Ben Web's Northcoders' News</h1>
+    <h1>Ben Web's NC News</h1>
     <p>Endpoints for this API are detailed below</p>
   </header>
 
@@ -166,14 +170,16 @@
     <p>Returns the article requested</p>
 
     <h3>PATCH <code><a href="/api/articles/:article_id">/api/articles/:article_id</a></code></h3>
-    <p>Increment or Decrement the votes of an article by one. This route requires a <code>vote</code> query of 'up' or 'down'</p>
+    <p>Increment or Decrement the votes of an article by one. This route requires a <code>vote</code> query of 'up' or
+      'down'</p>
     <p>e.g: <code>/api/articles/:article_id?vote=up</code></p>
 
     <h3>GET <code><a href="/api/articles/:article_id/comments">/api/articles/:article_id/comments</a></code></h3>
     <p>Returns all the comments for the requested article</p>
 
     <h3>POST <code><a href="/api/articles/:article_id/comments">/api/articles/:article_id/comments</a></code></h3>
-    <p>Creates a new comment for the selected article. This route requires a JSON <code>body</code> with <code>body</code>      and
+    <p>Creates a new comment for the selected article. This route requires a JSON <code>body</code> with <code>body</code>
+      and
       <code>created_by</code> key value pairs</p>
     <p>e.g:</p>
     <pre><code>
@@ -188,7 +194,8 @@
     <h2>API Comments</h2>
 
     <h3>PATCH <code><a href="/api/comments/:comment_id">/api/comments/:comment_id</a></code></h3>
-    <p>Increment or Decrement the votes of a comment by one. This route requires a <code>vote</code> query of 'up' or 'down'</p>
+    <p>Increment or Decrement the votes of a comment by one. This route requires a <code>vote</code> query of 'up' or
+      'down'</p>
     <p>e.g: <code>/api/comments/:comment_id?vote=up</code></p>
 
     <h3>DELETE <code><a href="/api/comments/:comment_id">/api/comments/:comment_id</a></code></h3>
@@ -203,7 +210,9 @@
   </section>
 
   <footer>
-    <small>This API is a student project demo created whilst studying the Full Stack Developer Course at <a href="https://northcoders.com/">Northcoders</a></small>
+    <p>This Node API is a student project demo created whilst studying the Full Stack Developer Course at <a href="https://northcoders.com/">Northcoders</a></p>
+    <p><a href="https://github.com/ben-web/NC-News-Back-End">Github Repository</a></p>
+    <p><small>Created by Ben Web</small></p>
   </footer>
 
 </body>

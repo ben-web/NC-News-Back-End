@@ -2,8 +2,16 @@
 
 const
   mongoose = require('mongoose'),
-  { Article, Comment, Topic, User } = require('../models'),
-  { formatArticleData, formatCommentData } = require('../utils/factory-helpers');
+  {
+    Article,
+    Comment,
+    Topic,
+    User
+  } = require('../models'),
+  {
+    formatArticleData,
+    formatCommentData
+  } = require('../utils/factoryHelpers');
 
 const seedDB = ({
   articleData,

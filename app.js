@@ -58,8 +58,10 @@ app.use((err, req, res, next) => {
 
 // 500
 app.use((err, req, res) => {
-  console.log(err, ' <<< error object');
-  console.log(err.code, ' <<< error code');
+  if (process.env.NODE_ENV === 'development') {
+    console.log(err, ' <<< error object');
+    console.log(err.code, ' <<< error code');
+  }
   res.status(500).send({ error: `Internal Server Error ${err.message || err.msg}` });
 });
 
