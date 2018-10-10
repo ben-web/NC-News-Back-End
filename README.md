@@ -1,43 +1,78 @@
-# Ben Web's Northcoders' News
+# Ben Web's NC News
 
-This API is a backend project demo created at the halfway point of the Northcoders' Full Stack Developer Course.
+## Back End RESTful API
 
-It demonstrates some of the skills students learn in the first six weeks of the course, which include:
+NC News is a news aggregation demo loosely based on Reddit. This API was built during week six of the Northcoders' Full Stack Developer Course.
+
+This project aims to demonstrate some of the skills learnt in four weeks of back end study including:
 
 * JavaScript programming
-* building a [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) [Web API](https://en.wikipedia.org/wiki/Web_API) to respond to [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) reqests
+* building a [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) [Web API](https://en.wikipedia.org/wiki/Web_API) to respond to [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) requests
 * storing data and interacting with databases
 * [Test Driven Development](https://en.wikipedia.org/wiki/Test-driven_development)
 
-This project is built in Node.js, using Express.js for server and MongoDB for [NoSQL](https://en.wikipedia.org/wiki/NoSQL) data storage.
+This back end application is consumed by a front end React app created during week nine of the course. Details of the front end may be found on Github: [github.com/ben-web/NC-News-Front-End](https://github.com/ben-web/NC-News-Front-End).
 
-A working example of this API is available at [ben-web-nc-news-back-end.herokuapp.com](https://ben-web-nc-news-back-end.herokuapp.com).
+## Using NC News
 
-## Getting Started
+A working example of this API is published at [ben-web-nc-news-back-end.herokuapp.com](https://ben-web-nc-news-back-end.herokuapp.com/).
 
-These instructions will help you to get a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+Heroku free hosting can be a little slow to start so please allow for this when starting the application.
 
-### Prerequisites
+### Endpoints
 
-Before installing this project, ensure you have this software installed:
+The API provides JSON responses to HTTP request methods relating to Articles, Comments, Topics and Users as described on the [API](https://ben-web-nc-news-back-end.herokuapp.com/).
 
-* [Node.js](https://nodejs.org/en/download/)
-* [MongoDB](https://docs.mongodb.com/manual/installation/)
-* A code editor such as [VS Code](https://code.visualstudio.com/download) or [Atom](https://flight-manual.atom.io/getting-started/sections/installing-atom/)
+#### Articles
+
+Articles may be retrieved or added using the appropriate GET or POST HTTP method.
+
+It's possible to retrieve all articles or articles filtered by topic.
+
+Comments may be posted to an article on this endpoint.
+
+#### Comments
+
+Comment votes may be incremented or decremented using a PATCH method.
+
+A comment may be deleted using DELETE.
+
+#### Topics
+
+Topics may be retrieved or added using the appropriate GET or POST method.
+
+#### Users
+
+A user object may be retrieved from this endpoint.
+
+#### Errors
+
+Bad route, request and database errors result in the relevant 400/500 response headers and an error message in the JSON response body.
+
+Express's next() method is used to handle errors.
+
+## Seeding Functions
+
+The original seed data for this project did not contain images for the articles. To make the front end more visually appealing, I've added a function to the Article model to insert a random image when an Article object is created.
+
+I've also added random vote counts to Article objects in order to demonstrate sorting by vote count on the front end.
+
+## Installing a Local Copy
+
+These instructions will help you to get a copy of NC News up and running on your local machine for testing purposes.
 
 ### Installing
 
-Duplicate or fork this repository from [github.com/ben-web/BE2-northcoders-news](https://github.com/ben-web/BE2-northcoders-news).
+Before installing this project, ensure you have this software installed:
 
-In your CLI, run the command:
+* [Node.js 10.6.0](https://nodejs.org/en/download/)
+* [MongoDB 3.4.17](https://docs.mongodb.com/manual/installation/)
 
-```text
-git clone <GIT_REPO_URL>
-```
+Duplicate or fork this repository from [github.com/ben-web/NC-News-Back-End](https://github.com/ben-web/NC-News-Back-End).
 
-Now install the required NPM packages:
+Inside this new directory, install the required NPM packages:
 
-```text
+```bash
 npm install
 ```
 
@@ -86,17 +121,17 @@ npm run dev
 If successful, you will see this message:
 
 ```text
-Express server listening on - http://localhost:3000
+Express server listening on - http://localhost:9090
 Connected to mongodb://localhost:27017/northcoders_news
 ```
 
-You may now access the application at [http://localhost:3000](http://localhost:3000).
+You may now access the application at [http://localhost:9090](http://localhost:9090).
 
 ### View endpoints
 
-A HTML summary of API endpoints is displayed at [http://localhost:3000/api](http://localhost:3000/api).
+A HTML summary of API endpoints is displayed at [http://localhost:9090/api](http://localhost:9090/api).
 
-As an example, make a GET request to [http://localhost:3000/api/articles](http://localhost:3000/api/articles). You may do this in your browser or by using an API Development Environment such as [Postman](https://www.getpostman.com/).
+As an example, make a GET request to [http://localhost:9090/api/articles](http://localhost:9090/api/articles).
 
 The _/api/articles_ endpoint will return a JSON array of article objects in this format:
 
@@ -117,6 +152,8 @@ The _/api/articles_ endpoint will return a JSON array of article objects in this
       "body": "This is part two of a series on how to get up and running with Systemd and Node.js. This part dives deeper into how to successfully run your app with systemd long-term, and how to set it up in a production environment.",
       "created_at": "2016-08-18T12:07:52.389Z",
       "belongs_to": "coding",
+      "image_url": "https://picsum.photos/g/600/300?image=30",
+      "votes": 51
       "__v": 0,
       "comments": 8
     }
@@ -231,6 +268,7 @@ This example makes a request for a single article using its ID parameter. The te
             'created_at',
             'created_by',
             'belongs_to',
+            'image_url',
             'votes',
             '__v'
           );
@@ -256,32 +294,6 @@ This example makes a request for a single article that does not exist. The test 
 
 Please see the _./spec/api.spec.js_ file for the specification of each test.
 
-### Coding style tests
-
-Coding style test have not been added.
-
-## Deployment
-
-Before deploying to a live system, ensure you have configured the production database URI in _./config/index.js_.
-
-### Seed the production database
-
-```text
-npm run seed:production
-```
-
-If successful, you will see this message:
-
-```text
-Added to DB: 36 Articles | 300 Comments | 3 Topics | 6 Users
-```
-
-### Deploy the application
-
-Please see your hosting provider's documentation for instructions on deploying to their environment.
-
-For demonstration purposes, the example application uses [Heroku Cloud Hosting](https://www.heroku.com/). Instructions for their service may be found here: [devcenter.heroku.com/articles/getting-started-with-nodejs](https://devcenter.heroku.com/articles/getting-started-with-nodejs).
-
 ## Built With
 
 * [Node.js](https://nodejs.org/) - JavaScript runtime built on [Chrome's V8 JavaScript engine](https://developers.google.com/v8/)
@@ -298,3 +310,31 @@ For demonstration purposes, the example application uses [Heroku Cloud Hosting](
 * Northcoders
 * Google
 * Stack Overflow
+
+
+
+
+
+
+## FRONT END
+
+### Run the application
+
+To start the application, run this command in the CLI:
+
+```bash
+npm run start
+```
+
+If successful, your browser should open [http://localhost:3000](http://localhost:3000).
+
+## Built With
+
+* [Node.js](https://nodejs.org/) - JavaScript runtime built on [Chrome's V8 JavaScript engine](https://developers.google.com/v8/)
+* [React.js](https://reactjs.org/) - Facebook's JavaScript library for building user interfaces
+* [Axios](https://www.npmjs.com/package/axios) - A promised based HTTP client (alternative to Fetch)
+* [Reactstrap](https://reactstrap.github.io/) - A Bootstrap 4 wrapper for React
+
+## Author
+
+* **Ben Web** - *Northcoders Student* - [northcoders.com](https://northcoders.com)
