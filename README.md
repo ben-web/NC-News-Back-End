@@ -304,37 +304,3 @@ Please see the _./spec/api.spec.js_ file for the specification of each test.
 ## Author
 
 * **Ben Web** - *Northcoders Student* - [northcoders.com](https://northcoders.com)
-
-## Acknowledgments
-
-* Northcoders
-* Google
-* Stack Overflow
-
-
-
-
-
-
-## FRONT END
-
-### Run the application
-
-To start the application, run this command in the CLI:
-
-```bash
-npm run start
-```
-
-If successful, your browser should open [http://localhost:3000](http://localhost:3000).
-
-## Built With
-
-* [Node.js](https://nodejs.org/) - JavaScript runtime built on [Chrome's V8 JavaScript engine](https://developers.google.com/v8/)
-* [React.js](https://reactjs.org/) - Facebook's JavaScript library for building user interfaces
-* [Axios](https://www.npmjs.com/package/axios) - A promised based HTTP client (alternative to Fetch)
-* [Reactstrap](https://reactstrap.github.io/) - A Bootstrap 4 wrapper for React
-
-## Author
-
-* **Ben Web** - *Northcoders Student* - [northcoders.com](https://northcoders.com)
