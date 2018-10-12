@@ -90,7 +90,7 @@ const dbConfig = {
 module.exports = dbConfig[process.env.NODE_ENV]
 ```
 
-### Seed the database
+### Seed the Database
 
 Before seeding the database, ensure you have MongoDB running. In a separate CLI instance run the command:
 
@@ -110,7 +110,7 @@ If successful, you will see this message:
 Added to DB: 36 Articles | 300 Comments | 3 Topics | 6 Users
 ```
 
-### Run the application
+### Run the Application
 
 To start the application, run this command in the CLI:
 
@@ -127,7 +127,7 @@ Connected to mongodb://localhost:27017/northcoders_news
 
 You may now access the application at [http://localhost:9090](http://localhost:9090).
 
-### View endpoints
+### View Endpoints
 
 A HTML summary of API endpoints is displayed at [http://localhost:9090/api](http://localhost:9090/api).
 
@@ -161,7 +161,7 @@ The _/api/articles_ endpoint will return a JSON array of article objects in this
 }
 ```
 
-## Running the tests
+## Running the Tests
 
 Automated tests for each endpoint are located in _./spec/api.spec.js_.
 
@@ -231,7 +231,7 @@ Connected to mongodb://localhost:27017/northcoders_news_test
   44 passing (4s)
 ```
 
-### End to end testing
+### End to End Testing
 
 Tests use [SuperTest](https://github.com/visionmedia/supertest#readme), [Mocha](https://mochajs.org/) and [Chai](http://www.chaijs.com/) for assertion based testing.
 
@@ -244,7 +244,7 @@ Endpoints in a RESTful API must respond to HTTP verbs in the correct manner. The
 * correct HTTP status codes are attached to the response header
 * error messages are returned where required
 
-#### Example of happy path testing
+#### Example of Happy Path Testing
 
 This example makes a request for a single article using its ID parameter. The test checks that the endpoint's response:
 
@@ -277,7 +277,7 @@ This example makes a request for a single article using its ID parameter. The te
     });
 ```
 
-#### Example of unhappy path testing
+#### Example of Unhappy Path Testing
 
 This example makes a request for a single article that does not exist. The test checks that the endpoint's response has the correct HTTP error status code.
 
