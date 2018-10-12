@@ -51,7 +51,7 @@ Bad route, request and database errors result in the relevant 400/500 response h
 
 Express's next() method is used to handle errors.
 
-## Seeding Functions
+### Seeding Functions
 
 The original seed data for this project did not contain images for the articles. To make the front end more visually appealing, I've added a function to the Article model to insert a random image when an Article object is created.
 
